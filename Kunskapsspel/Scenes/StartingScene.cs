@@ -46,7 +46,7 @@ namespace Kunskapsspel.Scenes
             Button startGameBtn = new Button()
             {
                 Size = new Size(50, 50),
-                Location = new Point(Screen.PrimaryScreen.Bounds.Width / 2 - 50, 600),
+                Location = new Point(Screen.PrimaryScreen.Bounds.Width / 2 - 25, 700),
                 Text = "Start",
                 TabStop = false,
             };
@@ -57,14 +57,26 @@ namespace Kunskapsspel.Scenes
 
             ComboBox chapters = new ComboBox()
             {
-                Location = new Point(50, 50),
-                Size = new Size(500, 500),
-                Font = new Font(new FontFamily("Comic Sans MS"), 25),
+                Location = new Point(Screen.PrimaryScreen.Bounds.Width / 2 - 75, 500),
+                Size = new Size(300, 40),
+                Font = new Font(new FontFamily("Comic Sans MS"), 20),
                 DropDownStyle = ComboBoxStyle.DropDownList,
             };
-            chapters.Items.Add("alkoholism");
+            chapters.Items.Add("Komplexa tal");
             startScreenForm.Controls.Add(chapters);
             chapters.BringToFront();
+
+            Label label = new Label() 
+            {
+                Location = new Point(Screen.PrimaryScreen.Bounds.Width / 2 - 240, 500),
+                Size = new Size(165, 45),
+                Font = new Font(new FontFamily("Comic Sans MS"), 20),
+                Text = "Välj Kapitel",
+            };
+
+            startScreenForm.Controls.Add(label);
+            label.BringToFront();
+
         }
 
         private void StartGame_Click(object sender, EventArgs e)

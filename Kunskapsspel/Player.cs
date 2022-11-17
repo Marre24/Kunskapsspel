@@ -64,8 +64,8 @@ namespace Kunskapsspel
                 BackColor = Color.Transparent,
             };
             gameForm.Controls.Add(body);
+            body.BringToFront();
             body.Parent = gameForm.background;
-            
         }
     }
 }

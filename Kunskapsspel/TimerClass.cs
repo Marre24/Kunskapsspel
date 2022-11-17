@@ -46,7 +46,7 @@ namespace Kunskapsspel
         {
 
             if (Keyboard.IsKeyDown(Key.W) || Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.S) || Keyboard.IsKeyDown(Key.D))
-                movmentClass.Move(testScene.background, testScene.interactableObjects, player);
+                movmentClass.Move(testScene.floors, testScene.allPictureBoxes, player);
 
             if (Keyboard.IsKeyUp(Key.Space))
                 spaceDown = false;

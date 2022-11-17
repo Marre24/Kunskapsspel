@@ -21,18 +21,30 @@ namespace Kunskapsspel.Scenes
 
         public override void CreateBackground()
         {
-            Debug.WriteLine(Path.GetFullPath("./Capybara.jpg"));
-
-            background = new PictureBox()
+            PictureBox mainFloor = new PictureBox()
             {
-                Size = new Size(10000, 10000),
-                Location = new Point(-20, -20),
+                Size = new Size(3000, 1000),
+                Location = new Point(0, 0),
                 Image = Image.FromFile(@"./Resources/Capybara.jpg"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
             };
-            form.Controls.Add(background);
-            allPictureBoxes.Add(background);
+            form.Controls.Add(mainFloor);
+            allPictureBoxes.Add(mainFloor);
+            floors.Add(mainFloor);
+
+            PictureBox secondFloor = new PictureBox()
+            {
+                Size = new Size(1000, 1000),
+                Location = new Point(500, mainFloor.Height),
+                Image = Image.FromFile(@"./Resources/Capybara.jpg"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+            };
+            form.Controls.Add(secondFloor);
+            allPictureBoxes.Add(secondFloor);
+            floors.Add(secondFloor);
+
         }
+
         public override void CreateInteractableObjects()
         {
             for (int i = 1; i <= 4; i++)

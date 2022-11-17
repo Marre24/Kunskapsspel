@@ -23,7 +23,6 @@ namespace Kunskapsspel
             this.WindowState = FormWindowState.Maximized;
             FormBorderStyle = FormBorderStyle.None;
             testScene = new TestScene(this);
-            background = testScene.background;
             new TimerClass(testScene, this);
             CreateExitButton();
             BackColor = Color.Green;

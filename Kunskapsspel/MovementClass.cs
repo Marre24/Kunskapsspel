@@ -38,39 +38,31 @@ namespace Kunskapsspel
             return Tuple.Create(x, y);
         }
 
-        public void Move(PictureBox background, List<InteractableObject> interactableObjects, Player player)
+        public void Move(List<PictureBox> floors, List<PictureBox> allPictureBoxes, Player player)
         {
             (int x, int y) = GetOffset();
-            (bool CanGoToX, bool CanGoToY) = CanMoveTo(background, x, y, player);
             
-            if (CanGoToX)
+            if (CanMoveTo(floors, x, y, player))
             {
-                foreach (InteractableObject pb in interactableObjects)
-                    pb.itemBody.Location = new Point(pb.itemBody.Location.X + x, pb.itemBody.Location.Y);
-                background.Location = new Point(background.Location.X + x, background.Location.Y);
-            }
-
-            if (CanGoToY)
-            {
-                foreach (InteractableObject pb in interactableObjects)
-                    pb.itemBody.Location = new Point(pb.itemBody.Location.X, pb.itemBody.Location.Y + y);
-                background.Location = new Point(background.Location.X, background.Location.Y + y);
+                foreach (PictureBox pb in allPictureBoxes)
+                    pb.Location = new Point(pb.Location.X + x, pb.Location.Y + y);
             }
         }
 
 
 
-        private Tuple<bool, bool> CanMoveTo(PictureBox floor, int x, int y, Player player)
+        private bool CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
         {
-            bool CanGoToX = false;
-            bool CanGoToY = false;
+            bool CanMove = false;
 
-            if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
-                CanGoToX = true;
-            if (floor.Location.Y + y <= player.BottomLocation && floor.Location.Y + floor.Height + y >= player.BottomLocation)
-                CanGoToY = true;
+            foreach (var floor in floors)
+            {
+                if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
+                    if (floor.Location.Y + y <= player.BottomLocation && floor.Location.Y + floor.Height + y >= player.BottomLocation)
+                        CanMove = true;
+            }
 
-            return Tuple.Create(CanGoToX, CanGoToY);
+            return CanMove;
         }
     }
 }

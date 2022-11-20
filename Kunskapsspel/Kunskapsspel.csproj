@@ -55,6 +55,7 @@
     <Compile Include="GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Door.cs" />
     <Compile Include="Scenes\GraficalScene.cs" />
     <Compile Include="Interact.cs" />
     <Compile Include="InteractableObject.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\LearningScene.cs" />
     <Compile Include="Scenes\StartingScene.cs" />
+    <Compile Include="Scenes\Test2.cs" />
     <Compile Include="Scenes\TestScene.cs" />
     <Compile Include="StartScreenForm.cs">
       <SubType>Form</SubType>

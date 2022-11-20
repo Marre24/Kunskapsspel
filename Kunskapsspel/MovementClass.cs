@@ -39,9 +39,11 @@ namespace Kunskapsspel
             return Tuple.Create(x, y);
         }
 
-        public void Move(List<PictureBox> floors, List<PictureBox> allPictureBoxes, Player player)
+        public void Move(Door previousDoor, Door nextDoor, List<PictureBox> floors, List<PictureBox> allPictureBoxes, Player player, GameForm gameForm)
         {
             (int x, int y) = GetOffset();
+
+
             (bool canMoveX, bool canMoveY) = CanMoveTo(floors, x, y, player);
 
             if (canMoveX)
@@ -56,9 +58,21 @@ namespace Kunskapsspel
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
             }
 
+            CheckForDoors(previousDoor, nextDoor, player, gameForm);
         }
 
+        private void CheckForDoors(Door previousDoor, Door nextDoor, Player player,GameForm gameForm)
+        {
+            if (previousDoor != null)
+                if (AreInsideOfPictureBox(previousDoor.doorBody, player))
+                    gameForm.ChangeSceneTo(previousDoor.goesTo);
 
+            if (nextDoor != null)
+                if (AreInsideOfPictureBox(nextDoor.doorBody, player))
+                    gameForm.ChangeSceneTo(nextDoor.goesTo);
+
+
+        }
 
         private Tuple<bool, bool> CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
         {
@@ -66,7 +80,7 @@ namespace Kunskapsspel
             bool CanMoveY = false;
             foreach (var floor in floors)
             {
-                if(AreInsideOfPictureBox(floor, player) || WillBeInsideOfPictureBox(floor, player, x, y))
+                if (AreInsideOfPictureBox(floor, player) || WillBeInsideOfPictureBox(floor, player, x, y))
                 {
                     if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
                         CanMoveX = true;
@@ -76,7 +90,7 @@ namespace Kunskapsspel
                 }
             }
 
-            return Tuple.Create(CanMoveX,CanMoveY);
+            return Tuple.Create(CanMoveX, CanMoveY);
         }
 
         private bool WillBeInsideOfPictureBox(PictureBox pictureBox, Player player, int x, int y)
@@ -88,5 +102,9 @@ namespace Kunskapsspel
         {
             return (pictureBox.Location.X <= player.LeftLocation && pictureBox.Location.X + pictureBox.Width >= player.RightLocation) && (pictureBox.Location.Y <= player.BottomLocation && pictureBox.Location.Y + pictureBox.Height >= player.BottomLocation);
         }
+
+
+
+
     }
 }

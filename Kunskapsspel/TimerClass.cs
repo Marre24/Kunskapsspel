@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
@@ -16,17 +17,30 @@ namespace Kunskapsspel
     {
         private Timer timer;
         private readonly MovementClass movmentClass;
-        private readonly TestScene testScene;
         private readonly GameForm gameForm;
         private bool spaceDown = false;
         private InteractClass interact;
         Player player;
-        public TimerClass(TestScene testScene, GameForm gameForm)
+        public TimerClass(string sceneName, GameForm gameForm)
         {
-            this.testScene = testScene;
             this.gameForm = gameForm;
+            gameForm.activeScene = CreateByTypeName(sceneName);
+
             movmentClass = new MovementClass();
             StartGame();
+        }
+
+        private object CreateByTypeName(string typeName)
+        {
+            var type = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                        from t in assembly.GetTypes()
+                        where t.Name == typeName  
+                        select t).FirstOrDefault();
+
+            if (type == null)
+                throw new InvalidOperationException("Type not found");
+
+            return Activator.CreateInstance(type, gameForm);
         }
 
         private void StartGame()
@@ -46,7 +60,7 @@ namespace Kunskapsspel
         {
 
             if (Keyboard.IsKeyDown(Key.W) || Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.S) || Keyboard.IsKeyDown(Key.D))
-                movmentClass.Move(testScene.floors, testScene.allPictureBoxes, player);
+                movmentClass.Move(gameForm.activeScene.previousDoor, gameForm.activeScene.nextDoor, gameForm.activeScene.floors, gameForm.activeScene.allPictureBoxes, player, gameForm);
 
             if (Keyboard.IsKeyUp(Key.Space))
                 spaceDown = false;
@@ -64,7 +78,7 @@ namespace Kunskapsspel
                 return;
 
             spaceDown = true;
-            interact.Interact(testScene.interactableObjects, player, this);
+            interact.Interact(gameForm.activeScene.interactableObjects, player, this);
         }
 
         public void Stop()

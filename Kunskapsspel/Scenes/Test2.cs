@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Kunskapsspel.Scenes
 {
-    public class TestScene : GraficalScene
+    public class TestScene2 : GraficalScene
     {
-        public TestScene(GameForm gameForm) : base(gameForm)
+        public TestScene2(GameForm gameForm) : base(gameForm)
         {
             CreateBackground();
             CreateInteractableObjects();
@@ -22,9 +22,8 @@ namespace Kunskapsspel.Scenes
 
         private void CreateDoors()
         {
-            nextDoor = new Door("TestScene2", new Point(3000 - 500, 0), new Size(500, 1000), form);
-            allPictureBoxes.Add(nextDoor.doorBody);
-
+            previousDoor = new Door("TestScene", new Point(0, 0), new Size(500, 1000), form);
+            allPictureBoxes.Add(previousDoor.doorBody);
         }
 
         public override void CreateBackground()
@@ -40,16 +39,16 @@ namespace Kunskapsspel.Scenes
             allPictureBoxes.Add(mainFloor);
             floors.Add(mainFloor);
 
-            PictureBox secondFloor = new PictureBox()
-            {
-                Size = new Size(1000, 1000),
-                Location = new Point(500, mainFloor.Height),
-                Image = Image.FromFile(@"./Resources/Capybara.jpg"),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-            };
-            form.Controls.Add(secondFloor);
-            allPictureBoxes.Add(secondFloor);
-            floors.Add(secondFloor);
+            //PictureBox secondFloor = new PictureBox()
+            //{
+            //    Size = new Size(1000, 1000),
+            //    Location = new Point(500, mainFloor.Height),
+            //    Image = Image.FromFile(@"./Resources/Capybara.jpg"),
+            //    SizeMode = PictureBoxSizeMode.StretchImage,
+            //};
+            //form.Controls.Add(secondFloor);
+            //allPictureBoxes.Add(secondFloor);
+            //floors.Add(secondFloor);
 
         }
 

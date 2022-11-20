@@ -12,11 +12,21 @@ namespace Kunskapsspel
         public List<PictureBox> floors = new List<PictureBox>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
+        public Door previousDoor;
+        public Door nextDoor;
         public GameForm form;
 
         public GraficalScene(GameForm form)
         {
             this.form = form;
+        }
+
+        public void FadeAway()
+        {
+            foreach (PictureBox pictureBox in allPictureBoxes)
+            {
+                pictureBox.Hide();
+            }
         }
 
         public virtual void CreateInteractableObjects() { }

@@ -25,16 +25,17 @@ namespace Kunskapsspel
             testScene = new TestScene(this);
             new TimerClass(testScene, this);
             CreateExitButton();
-            BackColor = Color.Green;
+            BackColor = Color.Black;
         }
 
         private void CreateExitButton()
         {
             Button exitBtn = new Button()
             {
-                Size = new Size(50,50),
+                Size = new Size(50, 50),
                 Location = new Point(Screen.PrimaryScreen.Bounds.Width - 50, 0),
                 Text = "Exit",
+                ForeColor = Color.White,
                 TabStop = false,
                 FlatStyle = FlatStyle.Flat,
             };

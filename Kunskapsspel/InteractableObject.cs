@@ -63,8 +63,10 @@ namespace Kunskapsspel
                 Size = ItemSize,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
+                //BackColor = Color.Transparent,    
             };
             form.Controls.Add(itemBody);
+            //itemBody.Parent = form.background;
         }
 
         public bool CanBeInteractedWith(Player player)                              // Change
@@ -74,8 +76,10 @@ namespace Kunskapsspel
             
             return false;
         }
+
         private int highPoint = 0;
         private int lowPoint = 0;
+
         private bool PointInbetween(int pointA, int pointB, int comparePoint)
         {
             if (pointA == pointB)

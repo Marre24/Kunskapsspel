@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kunskapsspel
@@ -41,28 +42,51 @@ namespace Kunskapsspel
         public void Move(List<PictureBox> floors, List<PictureBox> allPictureBoxes, Player player)
         {
             (int x, int y) = GetOffset();
-            
-            if (CanMoveTo(floors, x, y, player))
+            (bool canMoveX, bool canMoveY) = CanMoveTo(floors, x, y, player);
+
+            if (canMoveX)
             {
                 foreach (PictureBox pb in allPictureBoxes)
-                    pb.Location = new Point(pb.Location.X + x, pb.Location.Y + y);
+                    pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
             }
+
+            if (canMoveY)
+            {
+                foreach (PictureBox pb in allPictureBoxes)
+                    pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
+            }
+
         }
 
 
 
-        private bool CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
+        private Tuple<bool, bool> CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
         {
-            bool CanMove = false;
-
+            bool CanMoveX = false;
+            bool CanMoveY = false;
             foreach (var floor in floors)
             {
-                if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
+                if(AreInsideOfPictureBox(floor, player) || WillBeInsideOfPictureBox(floor, player, x, y))
+                {
+                    if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
+                        CanMoveX = true;
+
                     if (floor.Location.Y + y <= player.BottomLocation && floor.Location.Y + floor.Height + y >= player.BottomLocation)
-                        CanMove = true;
+                        CanMoveY = true;
+                }
             }
 
-            return CanMove;
+            return Tuple.Create(CanMoveX,CanMoveY);
+        }
+
+        private bool WillBeInsideOfPictureBox(PictureBox pictureBox, Player player, int x, int y)
+        {
+            return (pictureBox.Location.X + x <= player.LeftLocation && pictureBox.Location.X + pictureBox.Width + x >= player.RightLocation) && (pictureBox.Location.Y + y <= player.BottomLocation && pictureBox.Location.Y + pictureBox.Height + y >= player.BottomLocation);
+        }
+
+        private bool AreInsideOfPictureBox(PictureBox pictureBox, Player player)
+        {
+            return (pictureBox.Location.X <= player.LeftLocation && pictureBox.Location.X + pictureBox.Width >= player.RightLocation) && (pictureBox.Location.Y <= player.BottomLocation && pictureBox.Location.Y + pictureBox.Height >= player.BottomLocation);
         }
     }
 }

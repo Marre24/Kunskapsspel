@@ -28,38 +28,37 @@ namespace Kunskapsspel
                 y += movementSpeed;
             if (Keyboard.IsKeyDown(Key.S))
                 y -= movementSpeed;
-            if (Keyboard.IsKeyDown(Key.D))
-                x += movementSpeed;
             if (Keyboard.IsKeyDown(Key.A))
+                x += movementSpeed;
+            if (Keyboard.IsKeyDown(Key.D))
                 x -= movementSpeed;
 
             return Tuple.Create(x, y);
         }
 
-        public void Move(Player player, List<PictureBox> floors, List<PictureBox> allPictureBoxes, List<Door> doors, SceneManager sceneManager)
+        public void Move(Player player, Room room, SceneManager sceneManager)
         {
             (int x, int y) = GetOffset();
 
-            (bool canMoveX, bool canMoveY) = CanMoveTo(floors, x, y, player);
+            (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
 
             if (canMoveX)
-                foreach (PictureBox pb in allPictureBoxes)
+                foreach (PictureBox pb in room.GetAllPictureBoxes())
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
 
             if (canMoveY)
-                foreach (PictureBox pb in allPictureBoxes)
+                foreach (PictureBox pb in room.GetAllPictureBoxes())
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
 
-            CheckForDoors(player, doors, sceneManager);
+            CheckForDoors(player, room.GetDoors(), sceneManager);
         }
 
         private void CheckForDoors(Player player, List<Door> doors, SceneManager sceneManager)
         {
             foreach (Door door in doors)
             {
-                if (door != null)
-                    if (AreInsideOfPictureBox(door.doorBody, player))
-                        sceneManager.ChangeSceneTo();
+                if (AreInsideOfPictureBox(door.doorBody, player))
+                    sceneManager.ChangeSceneTo(door.target);
             }
         }
 

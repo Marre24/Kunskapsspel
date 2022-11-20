@@ -11,9 +11,11 @@ namespace Kunskapsspel
     public class Door
     {
         public PictureBox doorBody;
+        public Rooms target;
 
-        public Door(Point location, Size size, GameForm gameForm)
+        public Door(Rooms leedsTo,Point location, Size size, GameForm gameForm)
         {
+            target = leedsTo;
             CreateBody(gameForm, location, size);
         }
         private void CreateBody(GameForm gameForm, Point location, Size size)
@@ -22,10 +24,10 @@ namespace Kunskapsspel
             {
                 Location = location,
                 Size = size,
-
+                Visible = false,
             };
             gameForm.Controls.Add(doorBody);
-            gameForm.Hide();
+            doorBody.Hide();
         }
     }
 }

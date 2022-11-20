@@ -11,28 +11,38 @@ using System.Windows.Forms;
 
 namespace Kunskapsspel.Scenes
 {
-    public class TestScene2
+    public class SimpleRoom : Room
     {
-        public List<PictureBox> floors = new List<PictureBox>();
+        public List<PictureBox> floorSegments = new List<PictureBox>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
-        public Door previousDoor;
-        public Door nextDoor;
+        private List<Door> doors = new List<Door>();
         public GameForm form;
-        public TestScene2(GameForm gameForm)
+        public SimpleRoom(GameForm gameForm, Color backColor)
         {
+            gameForm.BackColor = backColor;
+            form = gameForm;
             CreateBackground();
             CreateInteractableObjects();
             CreateDoors();
         }
 
-        private void CreateDoors()
+        public void StartScene()
         {
-            previousDoor = new Door("TestScene", new Point(0, 0), new Size(500, 1000), form);
-            allPictureBoxes.Add(previousDoor.doorBody);
+            foreach (PictureBox pictureBox in allPictureBoxes)
+            {
+                pictureBox.Show();
+            }
         }
 
-        public void CreateBackground()
+        private void CreateDoors()
+        {
+            Door exit = new Door(Rooms.second, new Point(3000 - 500, 0), new Size(500, 1000), form);
+            doors.Add(exit);
+            allPictureBoxes.Add(exit.doorBody);
+        }
+
+        private void CreateBackground()
         {
             PictureBox mainFloor = new PictureBox()
             {
@@ -40,25 +50,27 @@ namespace Kunskapsspel.Scenes
                 Location = new Point(0, 0),
                 Image = Image.FromFile(@"./Resources/Capybara.jpg"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
             };
             form.Controls.Add(mainFloor);
             allPictureBoxes.Add(mainFloor);
-            floors.Add(mainFloor);
+            floorSegments.Add(mainFloor);
 
             PictureBox secondFloor = new PictureBox()
             {
-                Size = new Size(500, 500),
+                Size = new Size(1000, 1000),
                 Location = new Point(500, mainFloor.Height),
                 Image = Image.FromFile(@"./Resources/Capybara.jpg"),
                 SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
             };
             form.Controls.Add(secondFloor);
             allPictureBoxes.Add(secondFloor);
-            floors.Add(secondFloor);
+            floorSegments.Add(secondFloor);
 
         }
 
-        public void CreateInteractableObjects()
+        private void CreateInteractableObjects()
         {
             for (int i = 1; i <= 4; i++)
             {
@@ -66,6 +78,30 @@ namespace Kunskapsspel.Scenes
                 interactableObject.itemBody.BringToFront();
                 allPictureBoxes.Add(interactableObject.itemBody);
                 interactableObjects.Add(interactableObject);
+            }
+        }
+
+        public List<PictureBox> GetFloorSegments()
+        {
+            return floorSegments;
+
+        }
+
+        public List<PictureBox> GetAllPictureBoxes()
+        {
+            return allPictureBoxes;
+        }
+
+        public List<Door> GetDoors()
+        {
+            return doors;
+        }
+
+        public void EndScene()
+        {
+            foreach (PictureBox pictureBox in allPictureBoxes)
+            {
+                pictureBox.Hide();
             }
         }
     }

@@ -18,9 +18,12 @@ namespace Kunskapsspel
         public Timer timer;
         private bool spaceDown = false;
         GameManager gameManager;
-        public TimerClass(GameManager gameManager)
+        MovementClass movementClass;
+
+        public TimerClass(GameManager gameManager, MovementClass movementClass)
         {
             this.gameManager = gameManager;
+            this.movementClass = movementClass;
 
             CreateTimer();
         }
@@ -38,7 +41,8 @@ namespace Kunskapsspel
         {
 
             if (Keyboard.IsKeyDown(Key.W) || Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.S) || Keyboard.IsKeyDown(Key.D))
-                gameManager.Move();
+                movementClass.Move(gameManager.player, gameManager.CurrentRoom(), gameManager.sceneManager);
+
 
 
             if (Keyboard.IsKeyUp(Key.Space))

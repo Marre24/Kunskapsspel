@@ -35,6 +35,7 @@ namespace Kunskapsspel
                 Size = ItemSize,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
                 //BackColor = Color.Transparent,    
             };
             form.Controls.Add(itemBody);

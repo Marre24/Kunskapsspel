@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Kunskapsspel
 {
@@ -13,8 +14,8 @@ namespace Kunskapsspel
         private InteractClass interactClass;
         private readonly GameForm gameForm;
         private MovementClass movementClass;
-        private Player player;
-        SceneManager sceneManager;
+        public Player player;
+        public SceneManager sceneManager;
 
         public GameManager(GameForm gameForm)
         {
@@ -27,21 +28,24 @@ namespace Kunskapsspel
         {
             interactClass = new InteractClass();
             player = new Player(gameForm, Image.FromFile(@"./Resources/amogus.png"));
-            timerClass = new TimerClass(this);
             movementClass = new MovementClass();
-            sceneManager = new SceneManager();
+            timerClass = new TimerClass(this, movementClass);
+            sceneManager = new SceneManager(gameForm);
 
             timerClass.Start();
         }
 
-        internal void Move()
-        {
-            movementClass.Move(player, floors, allPictureBoxes, doors, sceneManager);
-        }
+        
 
         internal void Interact()
         {
-            interactClass.Interact(interactableObjects, player, timerClass);
+            //interactClass.Interact(interactableObjects, player, timerClass);
+        }
+
+        internal Room CurrentRoom()
+        {
+            return sceneManager.CurrentRoom;
+
         }
     }
 }

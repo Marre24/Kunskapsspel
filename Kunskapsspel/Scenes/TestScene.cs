@@ -11,9 +11,15 @@ using System.Windows.Forms;
 
 namespace Kunskapsspel.Scenes
 {
-    public class TestScene : GraficalScene
+    public class TestScene
     {
-        public TestScene(GameForm gameForm) : base(gameForm)
+        public List<PictureBox> floors = new List<PictureBox>();
+        public List<InteractableObject> interactableObjects = new List<InteractableObject>();
+        public List<PictureBox> allPictureBoxes = new List<PictureBox>();
+        public Door previousDoor;
+        public Door nextDoor;
+        public GameForm form;
+        public TestScene(GameForm gameForm)
         {
             CreateBackground();
             CreateInteractableObjects();
@@ -27,7 +33,7 @@ namespace Kunskapsspel.Scenes
 
         }
 
-        public override void CreateBackground()
+        public void CreateBackground()
         {
             PictureBox mainFloor = new PictureBox()
             {
@@ -53,7 +59,7 @@ namespace Kunskapsspel.Scenes
 
         }
 
-        public override void CreateInteractableObjects()
+        public void CreateInteractableObjects()
         {
             for (int i = 1; i <= 4; i++)
             {

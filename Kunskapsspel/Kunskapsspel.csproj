@@ -56,7 +56,8 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Door.cs" />
-    <Compile Include="Scenes\GraficalScene.cs" />
+    <Compile Include="GameManager.cs" />
+    <Compile Include="SceneManager.cs" />
     <Compile Include="Interact.cs" />
     <Compile Include="InteractableObject.cs" />
     <Compile Include="LearningLogic.cs" />

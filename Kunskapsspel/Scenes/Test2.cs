@@ -11,9 +11,15 @@ using System.Windows.Forms;
 
 namespace Kunskapsspel.Scenes
 {
-    public class TestScene2 : GraficalScene
+    public class TestScene2
     {
-        public TestScene2(GameForm gameForm) : base(gameForm)
+        public List<PictureBox> floors = new List<PictureBox>();
+        public List<InteractableObject> interactableObjects = new List<InteractableObject>();
+        public List<PictureBox> allPictureBoxes = new List<PictureBox>();
+        public Door previousDoor;
+        public Door nextDoor;
+        public GameForm form;
+        public TestScene2(GameForm gameForm)
         {
             CreateBackground();
             CreateInteractableObjects();
@@ -26,7 +32,7 @@ namespace Kunskapsspel.Scenes
             allPictureBoxes.Add(previousDoor.doorBody);
         }
 
-        public override void CreateBackground()
+        public void CreateBackground()
         {
             PictureBox mainFloor = new PictureBox()
             {
@@ -39,20 +45,20 @@ namespace Kunskapsspel.Scenes
             allPictureBoxes.Add(mainFloor);
             floors.Add(mainFloor);
 
-            //PictureBox secondFloor = new PictureBox()
-            //{
-            //    Size = new Size(1000, 1000),
-            //    Location = new Point(500, mainFloor.Height),
-            //    Image = Image.FromFile(@"./Resources/Capybara.jpg"),
-            //    SizeMode = PictureBoxSizeMode.StretchImage,
-            //};
-            //form.Controls.Add(secondFloor);
-            //allPictureBoxes.Add(secondFloor);
-            //floors.Add(secondFloor);
+            PictureBox secondFloor = new PictureBox()
+            {
+                Size = new Size(500, 500),
+                Location = new Point(500, mainFloor.Height),
+                Image = Image.FromFile(@"./Resources/Capybara.jpg"),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+            };
+            form.Controls.Add(secondFloor);
+            allPictureBoxes.Add(secondFloor);
+            floors.Add(secondFloor);
 
         }
 
-        public override void CreateInteractableObjects()
+        public void CreateInteractableObjects()
         {
             for (int i = 1; i <= 4; i++)
             {

@@ -14,15 +14,14 @@ namespace Kunskapsspel
     public partial class LearningTime : System.Windows.Forms.Form
     {
         public Label timeTextBox;
-        private TimerClass timerClass;
+        private readonly TimerClass timerClass;
         public LearningTime(TimerClass timerClass)
         {
             this.timerClass = timerClass;
-            InitializeComponent();
             timerClass.Stop();
+            InitializeComponent();
             FormClosing += LearningTime_FormClosing;
-            StartPosition = FormStartPosition.CenterScreen;
-            Size = new Size(1000, Screen.PrimaryScreen.Bounds.Height);
+            
             LearningLogic learningLogic = new LearningLogic(this);
             LearningScene learningScene = new LearningScene(this, learningLogic);
         }

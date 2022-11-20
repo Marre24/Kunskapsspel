@@ -10,13 +10,12 @@ namespace Kunskapsspel
 {
     public class Door
     {
-        public string goesTo;
-        public Door(string nextRoomName, Point location, Size size, GameForm gameForm)
+        public PictureBox doorBody;
+
+        public Door(Point location, Size size, GameForm gameForm)
         {
             CreateBody(gameForm, location, size);
-            this.goesTo = nextRoomName;
         }
-        public PictureBox doorBody;
         private void CreateBody(GameForm gameForm, Point location, Size size)
         {
             doorBody = new PictureBox()

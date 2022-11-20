@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Kunskapsspel
 {
-    internal class InteractClass
+    public class InteractClass
     {
         public InteractClass()
         {
@@ -26,8 +26,15 @@ namespace Kunskapsspel
             {
                 if (interactableObject.CanBeInteractedWith(player))
                 {
-                    LearningTime learningTime = new LearningTime(timerClass);
-                    learningTime.Show();
+                    if (interactableObject.itemBody.Name == "Sign")
+                    {
+
+                    }
+                    if (interactableObject.itemBody.Name == "ProblemTraining")
+                    {
+                        LearningTime learningTime = new LearningTime(timerClass);                                       //Ändra till att det beror på vilken interactable object 
+                        learningTime.Show();
+                    }
                 }
             }
         }

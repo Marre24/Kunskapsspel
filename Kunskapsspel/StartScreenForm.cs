@@ -17,9 +17,6 @@ namespace Kunskapsspel
         {
             InitializeComponent();
             StartingScene startingScene = new StartingScene(this);
-            
         }
-
-
     }
 }

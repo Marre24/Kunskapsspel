@@ -12,12 +12,14 @@ namespace Kunskapsspel.Scenes
 {
     internal class LearningScene
     {
-        LearningLogic learningLogic;
+        readonly LearningLogic learningLogic;
         string answer;
         TextBox answerTextBox;
         public LearningScene(LearningTime learningTime, LearningLogic learningLogic)
         {
             this.learningLogic = learningLogic;
+            learningTime.StartPosition = FormStartPosition.CenterScreen;
+            learningTime.Size = new Size(1000, Screen.PrimaryScreen.Bounds.Height);
 
             CreateObjects(learningTime);
         }

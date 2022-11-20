@@ -13,25 +13,26 @@ using Color = System.Drawing.Color;
 
 namespace Kunskapsspel
 {
-    public partial class GameForm : System.Windows.Forms.Form
+    public partial class GameForm : Form
     {
-        public PictureBox background;
         private readonly StartScreenForm startScreenForm;
-        public dynamic activeScene;
 
         public GameForm(StartScreenForm startScreenForm)
         {
-            InitializeComponent();
             this.startScreenForm = startScreenForm;
-            this.WindowState = FormWindowState.Maximized;
-            FormBorderStyle = FormBorderStyle.None;
-            TimerClass timerClass = new TimerClass("TestScene", this);
-            CreateExitButton();
-            BackColor = Color.Black;
+
+            new GameManager(this);
+
+            InitializeComponent();
+            CreateDefaultGrafics();
         }
 
-        private void CreateExitButton()
+        private void CreateDefaultGrafics()
         {
+            WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.None;
+            BackColor = Color.Black;
+
             Button exitBtn = new Button()
             {
                 Size = new Size(50, 50),
@@ -44,22 +45,6 @@ namespace Kunskapsspel
             Controls.Add(exitBtn);
             exitBtn.BringToFront();
             exitBtn.Click += ExitBtn_Click;
-        }
-
-        public void ChangeSceneTo(string sceneName)
-        {
-            //activeScene.FadeAway();
-
-            var type = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                        from t in assembly.GetTypes()
-                        where t.Name == sceneName
-                        select t).FirstOrDefault();
-
-            if (type == null)
-                throw new InvalidOperationException("Type not found");
-
-            activeScene = Activator.CreateInstance(type, new GameForm(startScreenForm));
-
         }
 
         private void ExitBtn_Click(object sender, EventArgs e)

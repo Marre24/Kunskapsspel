@@ -14,40 +14,11 @@ namespace Kunskapsspel
         public PictureBox body;
         Size bodySize = new Size(200,200);
 
-        public int LeftLocation 
-        { 
-            get
-            {
-                return body.Location.X;
-            } 
-            set { }
-        }
-        public int RightLocation
-        {
-            get
-            {
-                return body.Location.X + body.Width;
-            }
-            set { }
-        }
+        public int LeftLocation { get => body.Location.X; set { } }
+        public int RightLocation{ get => body.Location.X + body.Width; set { } }
+        public int TopLocation { get => body.Location.Y; set { } }
+        public int BottomLocation { get => body.Location.Y + body.Height; set { } }
 
-        public int TopLocation
-        {
-            get
-            {
-                return body.Location.Y;
-            }
-            set { }
-        }
-
-        public int BottomLocation
-        {
-            get
-            {
-                return body.Location.Y + body.Height;
-            }
-            set { }
-        }
         public Player(GameForm gameForm, Image image)
         {
             CreateBody(gameForm, image);
@@ -65,7 +36,6 @@ namespace Kunskapsspel
             };
             gameForm.Controls.Add(body);
             body.BringToFront();
-            body.Parent = gameForm.background;
         }
     }
 }

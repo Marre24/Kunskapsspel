@@ -13,13 +13,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kunskapsspel
 {
-    internal class MovementClass
+    public class MovementClass
     {
         private const int movementSpeed = 35;
-        const Key forwardKey = Key.W;
-        const Key leftKey = Key.A;
-        const Key backwardsKey = Key.S;
-        const Key rightKey = Key.D;
+
         public MovementClass() { }
 
         private Tuple<int, int> GetOffset()
@@ -27,51 +24,43 @@ namespace Kunskapsspel
             int x = 0;
             int y = 0;
 
-            if (Keyboard.IsKeyDown(forwardKey))
+            if (Keyboard.IsKeyDown(Key.W))
                 y += movementSpeed;
-            if (Keyboard.IsKeyDown(backwardsKey))
+            if (Keyboard.IsKeyDown(Key.S))
                 y -= movementSpeed;
-            if (Keyboard.IsKeyDown(leftKey))
+            if (Keyboard.IsKeyDown(Key.D))
                 x += movementSpeed;
-            if (Keyboard.IsKeyDown(rightKey))
+            if (Keyboard.IsKeyDown(Key.A))
                 x -= movementSpeed;
 
             return Tuple.Create(x, y);
         }
 
-        public void Move(Door previousDoor, Door nextDoor, List<PictureBox> floors, List<PictureBox> allPictureBoxes, Player player, GameForm gameForm)
+        public void Move(Player player, List<PictureBox> floors, List<PictureBox> allPictureBoxes, List<Door> doors, SceneManager sceneManager)
         {
             (int x, int y) = GetOffset();
-
 
             (bool canMoveX, bool canMoveY) = CanMoveTo(floors, x, y, player);
 
             if (canMoveX)
-            {
                 foreach (PictureBox pb in allPictureBoxes)
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
-            }
 
             if (canMoveY)
-            {
                 foreach (PictureBox pb in allPictureBoxes)
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
-            }
 
-            CheckForDoors(previousDoor, nextDoor, player, gameForm);
+            CheckForDoors(player, doors, sceneManager);
         }
 
-        private void CheckForDoors(Door previousDoor, Door nextDoor, Player player,GameForm gameForm)
+        private void CheckForDoors(Player player, List<Door> doors, SceneManager sceneManager)
         {
-            if (previousDoor != null)
-                if (AreInsideOfPictureBox(previousDoor.doorBody, player))
-                    gameForm.ChangeSceneTo(previousDoor.goesTo);
-
-            if (nextDoor != null)
-                if (AreInsideOfPictureBox(nextDoor.doorBody, player))
-                    gameForm.ChangeSceneTo(nextDoor.goesTo);
-
-
+            foreach (Door door in doors)
+            {
+                if (door != null)
+                    if (AreInsideOfPictureBox(door.doorBody, player))
+                        sceneManager.ChangeSceneTo();
+            }
         }
 
         private Tuple<bool, bool> CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
@@ -102,9 +91,5 @@ namespace Kunskapsspel
         {
             return (pictureBox.Location.X <= player.LeftLocation && pictureBox.Location.X + pictureBox.Width >= player.RightLocation) && (pictureBox.Location.Y <= player.BottomLocation && pictureBox.Location.Y + pictureBox.Height >= player.BottomLocation);
         }
-
-
-
-
     }
 }

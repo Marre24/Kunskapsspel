@@ -12,14 +12,10 @@ namespace Kunskapsspel
         private readonly Problems activeProblem;
         private Timer solutionTimer;
         readonly LearningTime learningTime;
-        public Problems GetActiveProblem 
-        {
-            get
-            {
-                return activeProblem;
-            }
-            set { }
-        }
+        private int seconds = 0;
+        private int minutes = 0;
+
+        public Problems GetActiveProblem { get => activeProblem; set { } }
 
         public LearningLogic(LearningTime learningTime)
         {
@@ -66,9 +62,6 @@ namespace Kunskapsspel
             solutionTimer.Tick += UppdateTime;
             solutionTimer.Start();
         }
-
-        private int seconds = 0;
-        private int minutes = 0;
 
         private void UppdateTime(object sender, EventArgs e)
         {

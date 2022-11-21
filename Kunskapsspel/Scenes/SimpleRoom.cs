@@ -16,11 +16,12 @@ namespace Kunskapsspel.Scenes
         public List<PictureBox> floorSegments = new List<PictureBox>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
-        private List<Door> doors = new List<Door>();
+        private readonly List<Door> doors = new List<Door>();
         public GameForm form;
+        private readonly Color backColor;
         public SimpleRoom(GameForm gameForm, Color backColor)
         {
-            gameForm.BackColor = backColor;
+            this.backColor = backColor;
             form = gameForm;
             CreateBackground();
             CreateInteractableObjects();
@@ -33,6 +34,7 @@ namespace Kunskapsspel.Scenes
             {
                 pictureBox.Show();
             }
+            form.BackColor = backColor;
         }
 
         private void CreateDoors()
@@ -103,6 +105,11 @@ namespace Kunskapsspel.Scenes
             {
                 pictureBox.Hide();
             }
+        }
+
+        public List<InteractableObject> GetInteractableObjects()
+        {
+            return interactableObjects;
         }
     }
 }

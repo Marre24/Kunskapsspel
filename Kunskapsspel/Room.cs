@@ -14,5 +14,6 @@ namespace Kunskapsspel
         List<Door> GetDoors();
         void StartScene();
         void EndScene();
+        List<InteractableObject> GetInteractableObjects();
     }
 }

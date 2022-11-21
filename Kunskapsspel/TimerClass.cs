@@ -60,7 +60,7 @@ namespace Kunskapsspel
 
         private void Interact()
         {
-            gameManager.Interact();
+            gameManager.interactClass.Interact(gameManager.CurrentRoom().GetInteractableObjects(), gameManager.player, gameManager.timerClass);
         }
 
         public void Stop()

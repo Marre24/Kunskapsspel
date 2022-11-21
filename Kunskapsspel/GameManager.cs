@@ -10,10 +10,10 @@ namespace Kunskapsspel
 {
     public class GameManager
     {
-        private TimerClass timerClass;
-        private InteractClass interactClass;
+        public TimerClass timerClass;
+        public InteractClass interactClass;
         private readonly GameForm gameForm;
-        private MovementClass movementClass;
+        public MovementClass movementClass;
         public Player player;
         public SceneManager sceneManager;
 
@@ -36,11 +36,6 @@ namespace Kunskapsspel
         }
 
         
-
-        internal void Interact()
-        {
-            //interactClass.Interact(interactableObjects, player, timerClass);
-        }
 
         internal Room CurrentRoom()
         {

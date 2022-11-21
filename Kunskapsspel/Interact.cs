@@ -26,15 +26,8 @@ namespace Kunskapsspel
             {
                 if (interactableObject.CanBeInteractedWith(player))
                 {
-                    if (interactableObject.itemBody.Name == "Sign")
-                    {
-
-                    }
-                    if (interactableObject.itemBody.Name == "ProblemTraining")
-                    {
-                        LearningTime learningTime = new LearningTime(timerClass);                                       //Ändra till att det beror på vilken interactable object 
-                        learningTime.Show();
-                    }
+                    LearningTime learningTime = new LearningTime(timerClass);                                       //Ändra till att det beror på vilken interactable object 
+                    learningTime.Show();
                 }
             }
         }

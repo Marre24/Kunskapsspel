@@ -13,13 +13,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Kunskapsspel
 {
-    internal class MovementClass
+    public class MovementClass
     {
         private const int movementSpeed = 35;
-        const Key forwardKey = Key.W;
-        const Key leftKey = Key.A;
-        const Key backwardsKey = Key.S;
-        const Key rightKey = Key.D;
+
         public MovementClass() { }
 
         private Tuple<int, int> GetOffset()
@@ -27,38 +24,43 @@ namespace Kunskapsspel
             int x = 0;
             int y = 0;
 
-            if (Keyboard.IsKeyDown(forwardKey))
+            if (Keyboard.IsKeyDown(Key.W))
                 y += movementSpeed;
-            if (Keyboard.IsKeyDown(backwardsKey))
+            if (Keyboard.IsKeyDown(Key.S))
                 y -= movementSpeed;
-            if (Keyboard.IsKeyDown(leftKey))
+            if (Keyboard.IsKeyDown(Key.A))
                 x += movementSpeed;
-            if (Keyboard.IsKeyDown(rightKey))
+            if (Keyboard.IsKeyDown(Key.D))
                 x -= movementSpeed;
 
             return Tuple.Create(x, y);
         }
 
-        public void Move(List<PictureBox> floors, List<PictureBox> allPictureBoxes, Player player)
+        public void Move(Player player, Room room, SceneManager sceneManager)
         {
             (int x, int y) = GetOffset();
-            (bool canMoveX, bool canMoveY) = CanMoveTo(floors, x, y, player);
+
+            (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
 
             if (canMoveX)
-            {
-                foreach (PictureBox pb in allPictureBoxes)
+                foreach (PictureBox pb in room.GetAllPictureBoxes())
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
-            }
 
             if (canMoveY)
-            {
-                foreach (PictureBox pb in allPictureBoxes)
+                foreach (PictureBox pb in room.GetAllPictureBoxes())
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
-            }
 
+            CheckForDoors(player, room.GetDoors(), sceneManager);
         }
 
-
+        private void CheckForDoors(Player player, List<Door> doors, SceneManager sceneManager)
+        {
+            foreach (Door door in doors)
+            {
+                if (AreInsideOfPictureBox(door.doorBody, player))
+                    sceneManager.ChangeSceneTo(door.target);
+            }
+        }
 
         private Tuple<bool, bool> CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
         {
@@ -66,7 +68,7 @@ namespace Kunskapsspel
             bool CanMoveY = false;
             foreach (var floor in floors)
             {
-                if(AreInsideOfPictureBox(floor, player) || WillBeInsideOfPictureBox(floor, player, x, y))
+                if (AreInsideOfPictureBox(floor, player) || WillBeInsideOfPictureBox(floor, player, x, y))
                 {
                     if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
                         CanMoveX = true;
@@ -76,7 +78,7 @@ namespace Kunskapsspel
                 }
             }
 
-            return Tuple.Create(CanMoveX,CanMoveY);
+            return Tuple.Create(CanMoveX, CanMoveY);
         }
 
         private bool WillBeInsideOfPictureBox(PictureBox pictureBox, Player player, int x, int y)

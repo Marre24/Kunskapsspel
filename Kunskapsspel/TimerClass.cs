@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
@@ -14,45 +15,44 @@ namespace Kunskapsspel
 {
     public class TimerClass
     {
-        private Timer timer;
-        private readonly MovementClass movmentClass;
-        private readonly TestScene testScene;
-        private readonly GameForm gameForm;
+        public Timer timer;
         private bool spaceDown = false;
-        private InteractClass interact;
-        Player player;
-        public TimerClass(TestScene testScene, GameForm gameForm)
+        GameManager gameManager;
+        MovementClass movementClass;
+
+        public TimerClass(GameManager gameManager, MovementClass movementClass)
         {
-            this.testScene = testScene;
-            this.gameForm = gameForm;
-            movmentClass = new MovementClass();
-            StartGame();
+            this.gameManager = gameManager;
+            this.movementClass = movementClass;
+
+            CreateTimer();
         }
 
-        private void StartGame()
+        private void CreateTimer()
         {
-            interact = new InteractClass();
-            player = new Player(gameForm, Image.FromFile(@"./Resources/amogus.png"));
-
             timer = new Timer()
             {
                 Interval = 20,
             };
             timer.Tick += TickEvent;
-            timer.Start();
         }
 
         private void TickEvent(object sender, EventArgs e)
         {
 
             if (Keyboard.IsKeyDown(Key.W) || Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.S) || Keyboard.IsKeyDown(Key.D))
-                movmentClass.Move(testScene.floors, testScene.allPictureBoxes, player);
+                movementClass.Move(gameManager.player, gameManager.CurrentRoom(), gameManager.sceneManager);
+
+
 
             if (Keyboard.IsKeyUp(Key.Space))
                 spaceDown = false;
 
             if (Keyboard.IsKeyDown(Key.Space))
             {
+                if (spaceDown)
+                    return;
+                spaceDown = true;
                 Interact();
             }
 
@@ -60,11 +60,7 @@ namespace Kunskapsspel
 
         private void Interact()
         {
-            if (spaceDown)
-                return;
-
-            spaceDown = true;
-            interact.Interact(testScene.interactableObjects, player, this);
+            gameManager.interactClass.Interact(gameManager.CurrentRoom().GetInteractableObjects(), gameManager.player, gameManager.timerClass);
         }
 
         public void Stop()

@@ -15,38 +15,10 @@ namespace Kunskapsspel
         private readonly GameForm form;
         public bool isCurrentlyInUse = false;
 
-        public int LeftX
-        {
-            get
-            {
-                return itemBody.Location.X;
-            }
-            set { }
-        }
-        public int RightX
-        {
-            get
-            {
-                return itemBody.Location.X + itemBody.Width;
-            }
-            set { }
-        }
-        public int Top
-        {
-            get
-            {
-                return itemBody.Location.Y;
-            }
-            set { }
-        }
-        public int Bot
-        {
-            get
-            {
-                return itemBody.Location.Y + itemBody.Height;
-            }
-            set { }
-        }
+        public int Left { get => itemBody.Location.X; set { } }
+        public int Right { get => itemBody.Location.X + itemBody.Width; set { } }
+        public int Top { get => itemBody.Location.Y; set { } }
+        public int Bot { get => itemBody.Location.Y + itemBody.Height; set { } }
 
 
         public InteractableObject(Point ItemTopLeftPoint, Size ItemSize, Image image, GameForm form)
@@ -63,6 +35,7 @@ namespace Kunskapsspel
                 Size = ItemSize,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
                 //BackColor = Color.Transparent,    
             };
             form.Controls.Add(itemBody);
@@ -71,9 +44,9 @@ namespace Kunskapsspel
 
         public bool CanBeInteractedWith(Player player)                              // Change
         {
-            if ((PointInbetween(LeftX, RightX, player.LeftLocation) || PointInbetween(LeftX, RightX, player.RightLocation)) && PointInbetween(Bot, Top, player.TopLocation))
+            if ((PointInbetween(Left, Right, player.LeftLocation) || PointInbetween(Left, Right, player.RightLocation)) && PointInbetween(Bot, Top, player.TopLocation))
                 return true;
-            
+
             return false;
         }
 

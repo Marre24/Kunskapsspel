@@ -8,28 +8,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace Kunskapsspel
 {
-    public partial class GameForm : System.Windows.Forms.Form
+    public partial class GameForm : Form
     {
-        public PictureBox background;
-        readonly TestScene testScene;
         private readonly StartScreenForm startScreenForm;
+
         public GameForm(StartScreenForm startScreenForm)
         {
-            InitializeComponent();
             this.startScreenForm = startScreenForm;
-            this.WindowState = FormWindowState.Maximized;
-            FormBorderStyle = FormBorderStyle.None;
-            testScene = new TestScene(this);
-            new TimerClass(testScene, this);
-            CreateExitButton();
-            BackColor = Color.Black;
+
+            new GameManager(this);
+
+            InitializeComponent();
+            CreateDefaultGrafics();
         }
 
-        private void CreateExitButton()
+        private void CreateDefaultGrafics()
         {
+            WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.None;
+            BackColor = Color.Black;
+
             Button exitBtn = new Button()
             {
                 Size = new Size(50, 50),

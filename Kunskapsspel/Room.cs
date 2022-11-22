@@ -9,7 +9,7 @@ namespace Kunskapsspel
 {
     public interface Room
     {
-        List<PictureBox> GetFloorSegments();
+        List<FloorSegment> GetFloorSegments();
         List<PictureBox> GetAllPictureBoxes();
         List<Door> GetDoors();
         void StartScene();

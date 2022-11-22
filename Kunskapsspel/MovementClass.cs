@@ -62,18 +62,18 @@ namespace Kunskapsspel
             }
         }
 
-        private Tuple<bool, bool> CanMoveTo(List<PictureBox> floors, int x, int y, Player player)
+        private Tuple<bool, bool> CanMoveTo(List<FloorSegment> floors, int x, int y, Player player)
         {
             bool CanMoveX = false;
             bool CanMoveY = false;
-            foreach (var floor in floors)
+            foreach (FloorSegment floorSegment in floors)
             {
-                if (AreInsideOfPictureBox(floor, player) || WillBeInsideOfPictureBox(floor, player, x, y))
+                if (AreInsideOfPictureBox(floorSegment.FloorBody, player) || WillBeInsideOfPictureBox(floorSegment.FloorBody, player, x, y))
                 {
-                    if (floor.Location.X + x <= player.LeftLocation && floor.Location.X + floor.Width + x >= player.RightLocation)
+                    if (floorSegment.FloorBody.Location.X + x <= player.LeftLocation && floorSegment.FloorBody.Location.X + floorSegment.FloorBody.Width + x >= player.RightLocation)
                         CanMoveX = true;
 
-                    if (floor.Location.Y + y <= player.BottomLocation && floor.Location.Y + floor.Height + y >= player.BottomLocation)
+                    if (floorSegment.FloorBody.Location.Y + y <= player.BottomLocation && floorSegment.FloorBody.Location.Y + floorSegment.FloorBody.Height + y >= player.BottomLocation)
                         CanMoveY = true;
                 }
             }

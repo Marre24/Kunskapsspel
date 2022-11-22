@@ -14,6 +14,9 @@ namespace Kunskapsspel
         public PictureBox itemBody;
         private readonly GameForm form;
         public bool isCurrentlyInUse = false;
+        private Point orgiginalLocation;
+
+        public Point OrginalLocation { get => orgiginalLocation; set { } }
 
         public int Left { get => itemBody.Location.X; set { } }
         public int Right { get => itemBody.Location.X + itemBody.Width; set { } }
@@ -24,6 +27,8 @@ namespace Kunskapsspel
         public InteractableObject(Point ItemTopLeftPoint, Size ItemSize, Image image, GameForm form)
         {
             this.form = form;
+            orgiginalLocation = ItemTopLeftPoint;
+
             CreateBody(ItemTopLeftPoint, ItemSize, image);
         }
 

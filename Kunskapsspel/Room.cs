@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Kunskapsspel
 {
-    public interface Room
+    public interface IRoom
     {
         List<FloorSegment> GetFloorSegments();
         List<PictureBox> GetAllPictureBoxes();
@@ -15,5 +15,6 @@ namespace Kunskapsspel
         void StartScene();
         void EndScene();
         List<InteractableObject> GetInteractableObjects();
+        List<PictureBox> GetHiddenPictureBoxes();
     }
 }

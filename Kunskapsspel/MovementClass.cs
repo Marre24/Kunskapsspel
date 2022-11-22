@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -36,19 +37,32 @@ namespace Kunskapsspel
             return Tuple.Create(x, y);
         }
 
-        public void Move(Player player, Room room, SceneManager sceneManager)
+        public void Move(Player player, IRoom room, SceneManager sceneManager)
         {
             (int x, int y) = GetOffset();
 
             (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
 
             if (canMoveX)
-                foreach (PictureBox pb in room.GetAllPictureBoxes())
+            {
+                foreach (Door door in room.GetDoors())
+                    door.doorBody.Location = new Point(door.doorBody.Location.X + x, door.doorBody.Location.Y);
+                foreach (FloorSegment floorSegment in room.GetFloorSegments())
+                    floorSegment.FloorBody.Location = new Point(floorSegment.FloorBody.Location.X + x, floorSegment.FloorBody.Location.Y);
+                foreach (PictureBox pb in room.GetHiddenPictureBoxes())
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
+            }
+                
 
             if (canMoveY)
-                foreach (PictureBox pb in room.GetAllPictureBoxes())
+            {
+                foreach (Door door in room.GetDoors())
+                    door.doorBody.Location = new Point(door.doorBody.Location.X, door.doorBody.Location.Y + y);
+                foreach (FloorSegment floorSegment in room.GetFloorSegments())
+                    floorSegment.FloorBody.Location = new Point(floorSegment.FloorBody.Location.X, floorSegment.FloorBody.Location.Y + y);
+                foreach (PictureBox pb in room.GetHiddenPictureBoxes())
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
+            }
 
             CheckForDoors(player, room.GetDoors(), sceneManager);
         }

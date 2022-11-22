@@ -21,7 +21,7 @@ namespace Kunskapsspel
 
         private Size size;
 
-        public FloorSegment(GameForm gameForm, Room room, Point location, Size size)
+        public FloorSegment(GameForm gameForm, IRoom room, Point location, Size size)
         {
             this.location = location;
             this.size = size;

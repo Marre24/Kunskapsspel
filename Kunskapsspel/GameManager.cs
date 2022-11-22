@@ -37,7 +37,7 @@ namespace Kunskapsspel
 
         
 
-        internal Room CurrentRoom()
+        internal IRoom CurrentRoom()
         {
             return sceneManager.CurrentRoom;
 

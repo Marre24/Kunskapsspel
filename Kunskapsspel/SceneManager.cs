@@ -18,10 +18,10 @@ namespace Kunskapsspel
     {
         //TestScene TestScene = new TestScene();
 
-        private Room currentRoom;
-        public Room CurrentRoom { get => currentRoom; set { } }
+        private IRoom currentRoom;
+        public IRoom CurrentRoom { get => currentRoom; set { } }
 
-        public Dictionary<Rooms, Room> rooms = new Dictionary<Rooms, Room>();
+        public Dictionary<Rooms, IRoom> rooms = new Dictionary<Rooms, IRoom>();
         public SceneManager(GameForm gameForm)
         {
             rooms.Add(Rooms.first, new SimpleRoom(gameForm, Color.Green));

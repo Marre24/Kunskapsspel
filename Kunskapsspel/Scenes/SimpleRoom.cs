@@ -11,10 +11,11 @@ using System.Windows.Forms;
 
 namespace Kunskapsspel.Scenes
 {
-    public class SimpleRoom : Room
+    public class SimpleRoom : IRoom
     {
         public List<FloorSegment> floorSegments = new List<FloorSegment>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
+        public List<PictureBox> hiddenPictureBoxes= new List<PictureBox>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
         private readonly List<Door> doors = new List<Door>();
         public GameForm form;
@@ -66,7 +67,7 @@ namespace Kunskapsspel.Scenes
 
         private void CreateBackground()
         {
-            FloorSegment floorSegment = new FloorSegment(form, this, new Point(0,0), new Size(3000, 1000));
+            FloorSegment floorSegment = new FloorSegment(form, this, new Point(0, 0), new Size(3000, 1000));
 
             FloorSegment floorSegment2 = new FloorSegment(form, this, new Point(0, floorSegment.OrginalLocation.Y + floorSegment.Height), new Size(1000, 1000));
 
@@ -74,13 +75,11 @@ namespace Kunskapsspel.Scenes
 
         private void CreateInteractableObjects()
         {
-            for (int i = 1; i <= 4; i++)
-            {
-                InteractableObject interactableObject = new InteractableObject(new Point(1500 * i, 500), new Size(300,300),Image.FromFile(@"./Resources/Capybara.jpg"), form);
-                interactableObject.itemBody.BringToFront();
-                allPictureBoxes.Add(interactableObject.itemBody);
-                interactableObjects.Add(interactableObject);
-            }
+            InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), form, floorSegments);
+            allPictureBoxes.Add(interactableObject.itemBody);
+            interactableObjects.Add(interactableObject);
+            hiddenPictureBoxes.Add(interactableObject.hiddenBody);
+
         }
 
         public List<FloorSegment> GetFloorSegments()
@@ -110,6 +109,11 @@ namespace Kunskapsspel.Scenes
         public List<InteractableObject> GetInteractableObjects()
         {
             return interactableObjects;
+        }
+
+        public List<PictureBox> GetHiddenPictureBoxes()
+        {
+            return hiddenPictureBoxes;
         }
     }
 }

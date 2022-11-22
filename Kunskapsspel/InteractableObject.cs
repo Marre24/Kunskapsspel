@@ -12,10 +12,10 @@ namespace Kunskapsspel
     public class InteractableObject
     {
         public PictureBox itemBody;
+        public PictureBox hiddenBody;
         private readonly GameForm form;
         public bool isCurrentlyInUse = false;
         private Point orgiginalLocation;
-
         public Point OrginalLocation { get => orgiginalLocation; set { } }
 
         public int Left { get => itemBody.Location.X; set { } }
@@ -24,63 +24,65 @@ namespace Kunskapsspel
         public int Bot { get => itemBody.Location.Y + itemBody.Height; set { } }
 
 
-        public InteractableObject(Point ItemTopLeftPoint, Size ItemSize, Image image, GameForm form)
+        public InteractableObject(Point ItemPoint, Size ItemSize, Image image, GameForm form, List<FloorSegment> floorSegments)
         {
             this.form = form;
-            orgiginalLocation = ItemTopLeftPoint;
+            orgiginalLocation = ItemPoint;
 
-            CreateBody(ItemTopLeftPoint, ItemSize, image);
+            CreateBody(ItemPoint, ItemSize, image);
+            foreach (FloorSegment floorSegment in floorSegments)
+            {
+                if (AreInsideOfPictureBox(floorSegment.FloorBody, itemBody))
+                    itemBody.Parent = floorSegment.FloorBody;
+            }
+            CreateHiddenBody(ItemPoint, ItemSize, image);
         }
 
-        public void CreateBody(Point ItemTopLeftPoint, Size ItemSize, Image image)
+        public void CreateBody(Point ItemPoint, Size ItemSize, Image image)
         {
             itemBody = new PictureBox()
             {
-                Location = ItemTopLeftPoint,
+                Location = ItemPoint,
                 Size = ItemSize,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Visible = false,
-                //BackColor = Color.Transparent,    
             };
             form.Controls.Add(itemBody);
-            //itemBody.Parent = form.background;
         }
 
-        public bool CanBeInteractedWith(Player player)                              // Change
+        public void CreateHiddenBody(Point ItemPoint, Size ItemSize, Image image)
         {
-            if ((PointInbetween(Left, Right, player.LeftLocation) || PointInbetween(Left, Right, player.RightLocation)) && PointInbetween(Bot, Top, player.TopLocation))
-                return true;
-
-            return false;
+            hiddenBody = new PictureBox()
+            {
+                Location = ItemPoint,
+                Size = ItemSize,
+                Image = image,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Visible = false,
+            };
+            form.Controls.Add(hiddenBody);
         }
 
-        private int highPoint = 0;
-        private int lowPoint = 0;
-
-        private bool PointInbetween(int pointA, int pointB, int comparePoint)
+        public bool CanBeInteractedWith(Player player)
         {
-            if (pointA == pointB)
-            {
-                MessageBox.Show("Error");
-                return false;
-            }
-
-            if (pointA > pointB)
-            {
-                highPoint = pointA;
-                lowPoint = pointB;
-            }
-            else
-            {
-                highPoint = pointB;
-                lowPoint = pointA;
-            }
-
-            if (lowPoint <= comparePoint && highPoint >= comparePoint)
-                return true;
-
-            return false;
+            return (IsBetweenX(player.LeftLocation) || IsBetweenX(player.RightLocation)) && (IsBetweenY(player.TopLocation) || IsBetweenY(player.BottomLocation));
         }
+
+        private bool IsBetweenX(int xCord)
+        {
+            return hiddenBody.Location.X <= xCord && hiddenBody.Location.X + hiddenBody.Width >= xCord;
+        }
+
+        private bool IsBetweenY(int xCord)
+        {
+            return hiddenBody.Location.Y <= xCord && hiddenBody.Location.Y + hiddenBody.Height >= xCord;
+        }
+
+        private bool AreInsideOfPictureBox(PictureBox biggerBox, PictureBox smallerBox)
+        {
+            return (biggerBox.Location.X <= smallerBox.Left && biggerBox.Location.X + biggerBox.Width >= smallerBox.Right) && (biggerBox.Location.Y <= smallerBox.Top && biggerBox.Location.Y + biggerBox.Height >= smallerBox.Bottom);
+        }
+
     }
 }

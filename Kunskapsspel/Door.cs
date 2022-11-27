@@ -13,12 +13,14 @@ namespace Kunskapsspel
         public PictureBox doorBody;
         public Rooms target;
         public Point originalLocation;
+        public bool opened; 
 
-        public Door(Rooms leedsTo, Point location, Size size, GameForm gameForm)
+        public Door(Rooms leedsTo, Point location, Size size, GameForm gameForm, bool open)
         {
             originalLocation = location;
             target = leedsTo;
             CreateBody(gameForm, location, size);
+            this.opened = open;
         }
         private void CreateBody(GameForm gameForm, Point location, Size size)
         {
@@ -30,5 +32,16 @@ namespace Kunskapsspel
             };
             gameForm.Controls.Add(doorBody);
         }
+
+        public void Open()
+        {
+            opened = true;
+        }
+
+        public void Close() 
+        { 
+            opened = false; 
+        }
+
     }
 }

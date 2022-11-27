@@ -32,8 +32,6 @@ namespace Kunskapsspel
             currentRoom.StartScene();
         }
 
-        
-
         internal void ChangeSceneTo(Rooms room)
         {
             currentRoom.EndScene();

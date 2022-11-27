@@ -39,14 +39,11 @@ namespace Kunskapsspel
 
         private void TickEvent(object sender, EventArgs e)
         {
-
             if (Keyboard.IsKeyDown(Key.W) || Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.S) || Keyboard.IsKeyDown(Key.D))
                 movementClass.Move(gameManager.player, gameManager.CurrentRoom(), gameManager.sceneManager);
 
-
-
             if (Keyboard.IsKeyUp(Key.Space))
-                spaceDown = false;
+                spaceDown = false;  
 
             if (Keyboard.IsKeyDown(Key.Space))
             {
@@ -55,7 +52,6 @@ namespace Kunskapsspel
                 spaceDown = true;
                 Interact();
             }
-
         }
 
         private void Interact()

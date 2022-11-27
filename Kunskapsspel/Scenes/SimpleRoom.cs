@@ -55,12 +55,13 @@ namespace Kunskapsspel.Scenes
             foreach (InteractableObject interactableObject in interactableObjects)
             {
                 interactableObject.itemBody.Location = interactableObject.OrginalLocation;
+                interactableObject.hiddenBody.Location = interactableObject.OrginalLocation;
             }
         }
 
         private void CreateDoors()
         {
-            Door exit = new Door(Rooms.second, new Point(3000 - 500, 0), new Size(500, 1000), form);
+            Door exit = new Door(Rooms.second, new Point(3000 - 500, 0), new Size(500, 1000), form, true);
             doors.Add(exit);
             allPictureBoxes.Add(exit.doorBody);
         }

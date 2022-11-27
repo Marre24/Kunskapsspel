@@ -58,7 +58,7 @@ namespace Kunskapsspel
             {
                 foreach (Door door in room.GetDoors())
                     door.doorBody.Location = new Point(door.doorBody.Location.X, door.doorBody.Location.Y + y);
-                foreach (FloorSegment floorSegment in room.GetFloorSegments())
+                foreach (FloorSegment floorSegment in room.GetFloorSegments())  
                     floorSegment.FloorBody.Location = new Point(floorSegment.FloorBody.Location.X, floorSegment.FloorBody.Location.Y + y);
                 foreach (PictureBox pb in room.GetHiddenPictureBoxes())
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
@@ -71,7 +71,7 @@ namespace Kunskapsspel
         {
             foreach (Door door in doors)
             {
-                if (AreInsideOfPictureBox(door.doorBody, player))
+                if (AreInsideOfPictureBox(door.doorBody, player) && door.opened)
                     sceneManager.ChangeSceneTo(door.target);
             }
         }

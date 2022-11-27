@@ -35,8 +35,6 @@ namespace Kunskapsspel
             timerClass.Start();
         }
 
-        
-
         internal IRoom CurrentRoom()
         {
             return sceneManager.CurrentRoom;

@@ -24,8 +24,8 @@ namespace Kunskapsspel
         public Dictionary<Rooms, IRoom> rooms = new Dictionary<Rooms, IRoom>();
         public SceneManager(GameForm gameForm)
         {
-            rooms.Add(Rooms.first, new SimpleRoom(gameForm, Color.Green));
-            rooms.Add(Rooms.second, new SimpleRoom(gameForm, Color.Red));
+            rooms.Add(Rooms.first, new SimpleRoom(gameForm));
+            rooms.Add(Rooms.second, new SimpleRoom(gameForm));
 
             currentRoom = rooms[Rooms.first];
 
@@ -38,7 +38,6 @@ namespace Kunskapsspel
 
             currentRoom = rooms[room];
             currentRoom.StartScene();
-
         }
     }
 }

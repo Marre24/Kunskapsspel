@@ -20,6 +20,31 @@ namespace Kunskapsspel
 
         public MovementClass() { }
 
+        public void Move(Player player, IRoom room, SceneManager sceneManager)
+        {
+            (int x, int y) = GetOffset();
+
+            (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
+
+            if (canMoveX)
+                foreach (PictureBox pb in room.GetAllPictureBoxes())
+                    pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
+
+            if (canMoveY)
+                foreach (PictureBox pb in room.GetAllPictureBoxes())
+                    pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
+
+            CheckForEnemies(player, room.GetEnemies());
+            CheckForDoors(player, room.GetDoors(), sceneManager);
+        }
+
+        private void CheckForEnemies(Player player, List<Enemy> enemies)
+        {
+            foreach (Enemy enemy in enemies)
+                if (AreInsideOfPictureBox(enemy.body, player) && !enemy.defeated)
+                    enemy.StartInteraction();
+        }
+
         private Tuple<int, int> GetOffset()
         {
             int x = 0;
@@ -35,36 +60,6 @@ namespace Kunskapsspel
                 x -= movementSpeed;
 
             return Tuple.Create(x, y);
-        }
-
-        public void Move(Player player, IRoom room, SceneManager sceneManager)
-        {
-            (int x, int y) = GetOffset();
-
-            (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
-
-            if (canMoveX)
-            {
-                foreach (Door door in room.GetDoors())
-                    door.doorBody.Location = new Point(door.doorBody.Location.X + x, door.doorBody.Location.Y);
-                foreach (FloorSegment floorSegment in room.GetFloorSegments())
-                    floorSegment.FloorBody.Location = new Point(floorSegment.FloorBody.Location.X + x, floorSegment.FloorBody.Location.Y);
-                foreach (PictureBox pb in room.GetHiddenPictureBoxes())
-                    pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
-            }
-                
-
-            if (canMoveY)
-            {
-                foreach (Door door in room.GetDoors())
-                    door.doorBody.Location = new Point(door.doorBody.Location.X, door.doorBody.Location.Y + y);
-                foreach (FloorSegment floorSegment in room.GetFloorSegments())  
-                    floorSegment.FloorBody.Location = new Point(floorSegment.FloorBody.Location.X, floorSegment.FloorBody.Location.Y + y);
-                foreach (PictureBox pb in room.GetHiddenPictureBoxes())
-                    pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
-            }
-
-            CheckForDoors(player, room.GetDoors(), sceneManager);
         }
 
         private void CheckForDoors(Player player, List<Door> doors, SceneManager sceneManager)

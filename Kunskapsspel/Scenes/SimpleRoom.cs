@@ -15,42 +15,68 @@ namespace Kunskapsspel.Scenes
     {
         public List<FloorSegment> floorSegments = new List<FloorSegment>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
-        public List<PictureBox> hiddenPictureBoxes= new List<PictureBox>();
+        public List<PictureBox> hiddenPictureBoxes = new List<PictureBox>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
         private readonly List<Door> doors = new List<Door>();
-        public GameForm form;
-        private readonly Color backColor;
-        public SimpleRoom(GameForm gameForm, Color backColor)
+        private readonly List<Enemy> enemies = new List<Enemy>();
+        public GameForm gameForm;
+        public SimpleRoom(GameForm gameForm)
         {
-            this.backColor = backColor;
-            form = gameForm;
+            this.gameForm = gameForm;
             CreateBackground();
             CreateInteractableObjects();
             CreateDoors();
+            CreateEnemies();
+        }
+
+        private void CreateBackground()
+        {
+            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, 0), new Size(3000, 1000));
+            FloorSegment floorSegment2 = new FloorSegment(gameForm, this, new Point(0, floorSegment.OrginalLocation.Y + floorSegment.Height), new Size(1000, 1000));
+
+        }
+        private void CreateInteractableObjects()
+        {
+            InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
+            allPictureBoxes.Add(interactableObject.hiddenBody);
+            interactableObjects.Add(interactableObject);
+            hiddenPictureBoxes.Add(interactableObject.hiddenBody);
+        }
+        private void CreateDoors()
+        {
+            Door exit = new Door(Rooms.second, new Point(3000 - 500, 0), new Size(500, 1000), gameForm, true);
+            doors.Add(exit);
+            allPictureBoxes.Add(exit.doorBody);
+        }
+
+        private void CreateEnemies()
+        {
+            Enemy enemy = new Enemy(gameForm, new Point(700, 0), new Size(300, 300), Image.FromFile(@"./Resources/amogus.png"), floorSegments);
+            enemies.Add(enemy);
+            allPictureBoxes.Add(enemy.hiddenBody);
         }
 
         public void StartScene()
         {
             UppdatePositions();
 
+            foreach (InteractableObject item in interactableObjects)
+                item.itemBody.Show();
+
+            foreach (Enemy item in enemies)
+                item.body.Show();
+
             foreach (PictureBox pictureBox in allPictureBoxes)
-            {
                 pictureBox.Show();
-            }
-            form.BackColor = backColor;
         }
 
         private void UppdatePositions()
         {
             foreach (Door door in doors)
-            {
                 door.doorBody.Location = door.originalLocation;
-            }
 
             foreach (FloorSegment floor in floorSegments)
-            {
                 floor.FloorBody.Location = floor.OrginalLocation;
-            }
 
             foreach (InteractableObject interactableObject in interactableObjects)
             {
@@ -59,34 +85,9 @@ namespace Kunskapsspel.Scenes
             }
         }
 
-        private void CreateDoors()
-        {
-            Door exit = new Door(Rooms.second, new Point(3000 - 500, 0), new Size(500, 1000), form, true);
-            doors.Add(exit);
-            allPictureBoxes.Add(exit.doorBody);
-        }
-
-        private void CreateBackground()
-        {
-            FloorSegment floorSegment = new FloorSegment(form, this, new Point(0, 0), new Size(3000, 1000));
-
-            FloorSegment floorSegment2 = new FloorSegment(form, this, new Point(0, floorSegment.OrginalLocation.Y + floorSegment.Height), new Size(1000, 1000));
-
-        }
-
-        private void CreateInteractableObjects()
-        {
-            InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), form, floorSegments);
-            allPictureBoxes.Add(interactableObject.itemBody);
-            interactableObjects.Add(interactableObject);
-            hiddenPictureBoxes.Add(interactableObject.hiddenBody);
-
-        }
-
         public List<FloorSegment> GetFloorSegments()
         {
             return floorSegments;
-
         }
 
         public List<PictureBox> GetAllPictureBoxes()
@@ -102,9 +103,7 @@ namespace Kunskapsspel.Scenes
         public void EndScene()
         {
             foreach (PictureBox pictureBox in allPictureBoxes)
-            {
                 pictureBox.Hide();
-            }
         }
 
         public List<InteractableObject> GetInteractableObjects()
@@ -115,6 +114,11 @@ namespace Kunskapsspel.Scenes
         public List<PictureBox> GetHiddenPictureBoxes()
         {
             return hiddenPictureBoxes;
+        }
+
+        public List<Enemy> GetEnemies()
+        {
+            return enemies;
         }
     }
 }

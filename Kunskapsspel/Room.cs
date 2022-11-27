@@ -16,5 +16,6 @@ namespace Kunskapsspel
         void EndScene();
         List<InteractableObject> GetInteractableObjects();
         List<PictureBox> GetHiddenPictureBoxes();
+        List<Enemy> GetEnemies();
     }
 }

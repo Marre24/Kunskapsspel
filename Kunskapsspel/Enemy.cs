@@ -10,21 +10,21 @@ namespace Kunskapsspel
 {
     public class Enemy
     {
-        public bool defeated;
+        public bool defeated = false;
         public PictureBox body;
         public PictureBox hiddenBody;
+        private TimerClass timerClass;
 
-        public Enemy(GameForm gameForm, Point location, Size size, Image image, List<FloorSegment> floorSegments)
+        public Enemy(GameForm gameForm, Point location, Size size, Image image, List<FloorSegment> floorSegments, TimerClass timerClass)
         {
-            CreateBody(gameForm, location, size, image);
+            this.timerClass = timerClass;
 
+            CreateBody(gameForm, location, size, image);
             foreach (FloorSegment floorSegment in floorSegments)
             {
                 if (AreInsideOfPictureBox(floorSegment.FloorBody, body))
                     body.Parent = floorSegment.FloorBody;
             }
-                
-
             CreateHiddenBody(gameForm, location, size);
         }
 
@@ -51,9 +51,10 @@ namespace Kunskapsspel
             body.BringToFront();
         }
 
-        public void StartInteraction() 
+        public void StartInteraction()
         {
-            
+            LearningTime learningTime = new LearningTime(timerClass);
+            learningTime.Show();
         }
         private bool AreInsideOfPictureBox(PictureBox biggerBox, PictureBox smallerBox)
         {

@@ -20,13 +20,13 @@ namespace Kunskapsspel.Scenes
         private readonly List<Door> doors = new List<Door>();
         private readonly List<Enemy> enemies = new List<Enemy>();
         public GameForm gameForm;
-        public SimpleRoom(GameForm gameForm)
+        public SimpleRoom(GameForm gameForm, TimerClass timer)
         {
             this.gameForm = gameForm;
             CreateBackground();
             CreateInteractableObjects();
             CreateDoors();
-            CreateEnemies();
+            CreateEnemies(timer);
         }
 
         private void CreateBackground()
@@ -49,9 +49,9 @@ namespace Kunskapsspel.Scenes
             allPictureBoxes.Add(exit.doorBody);
         }
 
-        private void CreateEnemies()
+        private void CreateEnemies(TimerClass timer)
         {
-            Enemy enemy = new Enemy(gameForm, new Point(700, 0), new Size(300, 300), Image.FromFile(@"./Resources/amogus.png"), floorSegments);
+            Enemy enemy = new Enemy(gameForm, new Point(700, 0), new Size(300, 300), Image.FromFile(@"./Resources/amogus.png"), floorSegments, timer);
             enemies.Add(enemy);
             allPictureBoxes.Add(enemy.hiddenBody);
         }

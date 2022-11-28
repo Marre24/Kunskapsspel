@@ -21,7 +21,6 @@ namespace Kunskapsspel
             timerClass.Stop();
             InitializeComponent();
             FormClosing += LearningTime_FormClosing;
-            
             LearningLogic learningLogic = new LearningLogic(this);
             LearningScene learningScene = new LearningScene(this, learningLogic);
         }

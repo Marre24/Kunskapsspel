@@ -41,7 +41,7 @@ namespace Kunskapsspel
         private void CheckForEnemies(Player player, List<Enemy> enemies)
         {
             foreach (Enemy enemy in enemies)
-                if (AreInsideOfPictureBox(enemy.body, player) && !enemy.defeated)
+                if (AreInsideOfPictureBox(enemy.hiddenBody, player) && !enemy.defeated)
                     enemy.StartInteraction();
         }
 

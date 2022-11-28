@@ -22,10 +22,10 @@ namespace Kunskapsspel
         public IRoom CurrentRoom { get => currentRoom; set { } }
 
         public Dictionary<Rooms, IRoom> rooms = new Dictionary<Rooms, IRoom>();
-        public SceneManager(GameForm gameForm)
+        public SceneManager(GameForm gameForm, TimerClass timer)
         {
-            rooms.Add(Rooms.first, new SimpleRoom(gameForm));
-            rooms.Add(Rooms.second, new SimpleRoom(gameForm));
+            rooms.Add(Rooms.first, new SimpleRoom(gameForm, timer));
+            rooms.Add(Rooms.second, new SimpleRoom(gameForm, timer));
 
             currentRoom = rooms[Rooms.first];
 

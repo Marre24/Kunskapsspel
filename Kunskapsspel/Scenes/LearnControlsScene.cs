@@ -1,63 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Kunskapsspel.Scenes
 {
-    public class SimpleRoom : IRoom
+    class LearnControlsScene : IRoom
     {
         public List<FloorSegment> floorSegments = new List<FloorSegment>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
-        public List<PictureBox> hiddenPictureBoxes= new List<PictureBox>();
+        public List<PictureBox> hiddenPictureBoxes = new List<PictureBox>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
         private readonly List<Door> doors = new List<Door>();
         private readonly List<Enemy> enemies = new List<Enemy>();
         public GameForm gameForm;
-        public SimpleRoom(GameForm gameForm, TimerClass timerClass)
+        public LearnControlsScene(GameForm gameForm, TimerClass timerClass)
         {
             this.gameForm = gameForm;
             CreateFloorSegments();
-            CreateInteractableObjects();
             CreateDoors();
+            CreateInteractableObjects();
             CreateEnemies(timerClass);
-        }
-
-        public void CreateEnemies(TimerClass timer)
-        {
-            Enemy enemy = new Enemy(gameForm, new Point(700, 0), new Size(300, 300), Image.FromFile(@"./Resources/amogus.png"), floorSegments, timer);
-            enemies.Add(enemy);
-            allPictureBoxes.Add(enemy.hiddenBody);
-        }
-
-        public void CreateDoors()
-        {
-            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3000 - 500, 0), new Size(500, 1000), gameForm, false);
-            doors.Add(exit);
-            allPictureBoxes.Add(exit.doorBody);
         }
 
         public void CreateFloorSegments()
         {
-            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, 0), new Size(3000, 1000));
+            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, Screen.PrimaryScreen.Bounds.Height/2 - 2000/2), new Size(6000, 2000));
+            floorSegments.Add(floorSegment);
+            allPictureBoxes.Add(floorSegment.FloorBody);
+        }
 
-            FloorSegment floorSegment2 = new FloorSegment(gameForm, this, new Point(0, floorSegment.OrginalLocation.Y + floorSegment.Height), new Size(1000, 1000));
+        public void CreateDoors()
+        {
+            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3950, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(50, 500), gameForm, false);
+            doors.Add(exit);
+            allPictureBoxes.Add(exit.doorBody);
+        }
+
+        public void CreateEnemies(TimerClass timer)
+        {
 
         }
 
         public void CreateInteractableObjects()
         {
-            InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
-            allPictureBoxes.Add(interactableObject.itemBody);
-            interactableObjects.Add(interactableObject);
-            hiddenPictureBoxes.Add(interactableObject.hiddenBody);
+            InteractableObject sign = new InteractableObject(new Point(2000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
+            allPictureBoxes.Add(sign.itemBody);
+            interactableObjects.Add(sign);
+            hiddenPictureBoxes.Add(sign.hiddenBody);
 
+            InteractableObject npc = new InteractableObject(new Point(4000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
+            allPictureBoxes.Add(npc.itemBody);
+            interactableObjects.Add(npc);
+            hiddenPictureBoxes.Add(npc.hiddenBody);
         }
 
         public void StartScene()
@@ -73,19 +71,16 @@ namespace Kunskapsspel.Scenes
         public void UppdatePositions()
         {
             foreach (Door door in doors)
-            {
                 door.doorBody.Location = door.originalLocation;
-            }
 
             foreach (FloorSegment floor in floorSegments)
-            {
                 floor.FloorBody.Location = floor.OrginalLocation;
-            }
 
             foreach (InteractableObject interactableObject in interactableObjects)
-            {
                 interactableObject.itemBody.Location = interactableObject.OrginalLocation;
-            }
+
+            foreach (Enemy enemy in enemies)
+                enemy.body.Location = enemy.GetOriginalLocation;
         }
         
 

@@ -17,6 +17,8 @@ namespace Kunskapsspel
 
         public PictureBox FloorBody { get => floorBody; set { } }
 
+        public int Width { get => floorBody.Width;}
+
         private PictureBox floorBody;
 
         private Size size;

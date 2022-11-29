@@ -11,23 +11,21 @@ namespace Kunskapsspel
 {
     public enum Rooms
     {
-        first,
-        second,
+        LearnControlsScene,
+        LearnComplexNumbersScene,
     }
     public class SceneManager
     {
-        //TestScene TestScene = new TestScene();
-
         private IRoom currentRoom;
         public IRoom CurrentRoom { get => currentRoom; set { } }
 
         public Dictionary<Rooms, IRoom> rooms = new Dictionary<Rooms, IRoom>();
         public SceneManager(GameForm gameForm, TimerClass timer)
         {
-            rooms.Add(Rooms.first, new SimpleRoom(gameForm, timer));
-            rooms.Add(Rooms.second, new SimpleRoom(gameForm, timer));
+            rooms.Add(Rooms.LearnControlsScene, new LearnControlsScene(gameForm, timer));
+            rooms.Add(Rooms.LearnComplexNumbersScene, new LearnComplexNumbersScene(gameForm, timer));
 
-            currentRoom = rooms[Rooms.first];
+            currentRoom = rooms[Rooms.LearnControlsScene];
 
             currentRoom.StartScene();
         }

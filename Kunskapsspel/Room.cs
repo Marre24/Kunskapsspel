@@ -9,13 +9,19 @@ namespace Kunskapsspel
 {
     public interface IRoom
     {
+
+        void CreateEnemies(TimerClass timer);
+        void CreateDoors();
+        void CreateFloorSegments();
+        void CreateInteractableObjects();
+        void UppdatePositions();
         List<FloorSegment> GetFloorSegments();
         List<PictureBox> GetAllPictureBoxes();
+        List<InteractableObject> GetInteractableObjects();
+        List<PictureBox> GetHiddenPictureBoxes();
         List<Door> GetDoors();
         void StartScene();
         void EndScene();
-        List<InteractableObject> GetInteractableObjects();
-        List<PictureBox> GetHiddenPictureBoxes();
         List<Enemy> GetEnemies();
     }
 }

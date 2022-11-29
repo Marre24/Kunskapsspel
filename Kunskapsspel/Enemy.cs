@@ -14,10 +14,13 @@ namespace Kunskapsspel
         public PictureBox body;
         public PictureBox hiddenBody;
         private TimerClass timerClass;
+        private Point originalPoint;
+        public Point GetOriginalLocation { get => originalPoint; }
 
         public Enemy(GameForm gameForm, Point location, Size size, Image image, List<FloorSegment> floorSegments, TimerClass timerClass)
         {
             this.timerClass = timerClass;
+            originalPoint = location;
 
             CreateBody(gameForm, location, size, image);
             foreach (FloorSegment floorSegment in floorSegments)

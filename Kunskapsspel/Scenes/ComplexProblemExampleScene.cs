@@ -100,11 +100,6 @@ namespace Kunskapsspel.Scenes
             return interactableObjects;
         }
 
-        public List<PictureBox> GetHiddenPictureBoxes()
-        {
-            return hiddenPictureBoxes;
-        }
-
         public List<Enemy> GetEnemies()
         {
             return enemies;

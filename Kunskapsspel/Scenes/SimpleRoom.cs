@@ -15,7 +15,6 @@ namespace Kunskapsspel.Scenes
     {
         public List<FloorSegment> floorSegments = new List<FloorSegment>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
-        public List<PictureBox> hiddenPictureBoxes= new List<PictureBox>();
         public List<PictureBox> allPictureBoxes = new List<PictureBox>();
         private readonly List<Door> doors = new List<Door>();
         private readonly List<Enemy> enemies = new List<Enemy>();
@@ -54,20 +53,23 @@ namespace Kunskapsspel.Scenes
         public void CreateInteractableObjects()
         {
             InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
-            allPictureBoxes.Add(interactableObject.itemBody);
+            allPictureBoxes.Add(interactableObject.hiddenBody);
             interactableObjects.Add(interactableObject);
-            hiddenPictureBoxes.Add(interactableObject.hiddenBody);
-
         }
 
         public void StartScene()
         {
             UppdatePositions();
-
-            foreach (PictureBox pictureBox in allPictureBoxes)
-            {
-                pictureBox.Show();
-            }
+        
+            foreach (Door door in doors)
+                door.doorBody.Show();
+            foreach (FloorSegment floorsegment in floorSegments)
+                floorsegment.FloorBody.Show();
+            foreach (InteractableObject interactableObject in interactableObjects)
+                interactableObject.itemBody.Show();
+            foreach (Enemy enemy in enemies)
+                enemy.body.Show();
+                
         }
 
         public void UppdatePositions()
@@ -116,11 +118,6 @@ namespace Kunskapsspel.Scenes
         public List<InteractableObject> GetInteractableObjects()
         {
             return interactableObjects;
-        }
-
-        public List<PictureBox> GetHiddenPictureBoxes()
-        {
-            return hiddenPictureBoxes;
         }
 
         public List<Enemy> GetEnemies()

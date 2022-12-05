@@ -18,7 +18,6 @@ namespace Kunskapsspel
         List<FloorSegment> GetFloorSegments();
         List<PictureBox> GetAllPictureBoxes();
         List<InteractableObject> GetInteractableObjects();
-        List<PictureBox> GetHiddenPictureBoxes();
         List<Door> GetDoors();
         void StartScene();
         void EndScene();

@@ -29,13 +29,11 @@ namespace Kunskapsspel.Scenes
         public void CreateFloorSegments()
         {
             FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, Screen.PrimaryScreen.Bounds.Height/2 - 2000/2), new Size(6000, 2000));
-            floorSegments.Add(floorSegment);
-            allPictureBoxes.Add(floorSegment.FloorBody);
         }
 
         public void CreateDoors()
         {
-            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3950, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(50, 500), gameForm, false);
+            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3900, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(100, 500), gameForm, true);
             doors.Add(exit);
             allPictureBoxes.Add(exit.doorBody);
         }
@@ -48,24 +46,26 @@ namespace Kunskapsspel.Scenes
         public void CreateInteractableObjects()
         {
             InteractableObject sign = new InteractableObject(new Point(2000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
-            allPictureBoxes.Add(sign.itemBody);
+            allPictureBoxes.Add(sign.hiddenBody);
             interactableObjects.Add(sign);
-            hiddenPictureBoxes.Add(sign.hiddenBody);
 
             InteractableObject npc = new InteractableObject(new Point(4000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
-            allPictureBoxes.Add(npc.itemBody);
+            allPictureBoxes.Add(npc.hiddenBody);
             interactableObjects.Add(npc);
-            hiddenPictureBoxes.Add(npc.hiddenBody);
         }
 
         public void StartScene()
         {
             UppdatePositions();
 
-            foreach (PictureBox pictureBox in allPictureBoxes)
-            {
-                pictureBox.Show();
-            }
+            foreach (Door door in doors)
+                door.doorBody.Show();
+            foreach (FloorSegment floorsegment in floorSegments)
+                floorsegment.FloorBody.Show();
+            foreach (InteractableObject interactableObject in interactableObjects)
+                interactableObject.itemBody.Show();
+            foreach (Enemy enemy in enemies)
+                enemy.body.Show();
         }
 
         public void UppdatePositions()

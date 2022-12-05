@@ -13,7 +13,7 @@ namespace Kunskapsspel
         public PictureBox doorBody;
         public Rooms target;
         public Point originalLocation;
-        public bool opened; 
+        public bool opened;
 
         public Door(Rooms leedsTo, Point location, Size size, GameForm gameForm, bool open)
         {

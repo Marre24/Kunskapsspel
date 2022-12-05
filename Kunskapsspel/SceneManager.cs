@@ -5,12 +5,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Kunskapsspel
 {
     public enum Rooms
     {
+        SimpleRoom,
         LearnControlsScene,
         LearnComplexNumbersScene,
     }
@@ -24,6 +26,8 @@ namespace Kunskapsspel
         {
             rooms.Add(Rooms.LearnControlsScene, new LearnControlsScene(gameForm, timer));
             rooms.Add(Rooms.LearnComplexNumbersScene, new LearnComplexNumbersScene(gameForm, timer));
+
+            rooms.Add(Rooms.SimpleRoom, new SimpleRoom(gameForm, timer));
 
             currentRoom = rooms[Rooms.LearnControlsScene];
 

@@ -19,7 +19,7 @@ namespace Kunskapsspel
         private const int movementSpeed = 35;
 
         public MovementClass() { }
-
+        int i = 0;
         public void Move(Player player, IRoom room, SceneManager sceneManager)
         {
             (int x, int y) = GetOffset();
@@ -27,8 +27,15 @@ namespace Kunskapsspel
             (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
 
             if (canMoveX)
+            {
+                Debug.WriteLine(i);
+                Debug.WriteLine(room.GetFloorSegments()[0].FloorBody.Location.X);
                 foreach (PictureBox pb in room.GetAllPictureBoxes())
+                {
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
+                }
+            }
+            
 
             if (canMoveY)
                 foreach (PictureBox pb in room.GetAllPictureBoxes())

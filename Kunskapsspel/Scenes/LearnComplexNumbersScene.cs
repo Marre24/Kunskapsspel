@@ -29,13 +29,9 @@ namespace Kunskapsspel.Scenes
         public void CreateFloorSegments()
         {
             FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, Screen.PrimaryScreen.Bounds.Height / 2 - 1000 / 2), new Size(1500, 1000));
-            floorSegments.Add(floorSegment);
-            allPictureBoxes.Add(floorSegment.FloorBody);
 
             Size size = new Size(1000, 1500);
             FloorSegment floorSegment2 = new FloorSegment(gameForm, this, new Point(floorSegment.FloorBody.Location.X + floorSegment.Width - size.Width, floorSegment.FloorBody.Location.Y + floorSegment.Height ), size);
-            floorSegments.Add(floorSegment2);
-            allPictureBoxes.Add(floorSegment2.FloorBody);
 
         }
 
@@ -45,7 +41,7 @@ namespace Kunskapsspel.Scenes
             //doors.Add(exit);
             //allPictureBoxes.Add(exit.doorBody);
 
-            Door entry = new Door(Rooms.LearnControlsScene, new Point(3950, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(50, 500), gameForm, false);
+            Door entry = new Door(Rooms.LearnControlsScene, new Point(3950, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(50, 500), gameForm, true);
             doors.Add(entry);
             allPictureBoxes.Add(entry.doorBody);
         }
@@ -58,19 +54,22 @@ namespace Kunskapsspel.Scenes
         public void CreateInteractableObjects()
         {
             InteractableObject npc = new InteractableObject(new Point(4000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
-            allPictureBoxes.Add(npc.itemBody);
+            allPictureBoxes.Add(npc.hiddenBody);
             interactableObjects.Add(npc);
-            hiddenPictureBoxes.Add(npc.hiddenBody);
         }
 
         public void StartScene()
         {
             UppdatePositions();
 
-            foreach (PictureBox pictureBox in allPictureBoxes)
-            {
-                pictureBox.Show();
-            }
+            foreach (Door door in doors)
+                door.doorBody.Show();
+            foreach (FloorSegment floorsegment in floorSegments)
+                floorsegment.FloorBody.Show();
+            foreach (InteractableObject interactableObject in interactableObjects)
+                interactableObject.itemBody.Show();
+            foreach (Enemy enemy in enemies)
+                enemy.body.Show();
         }
 
         public void UppdatePositions()
@@ -116,11 +115,6 @@ namespace Kunskapsspel.Scenes
         public List<InteractableObject> GetInteractableObjects()
         {
             return interactableObjects;
-        }
-
-        public List<PictureBox> GetHiddenPictureBoxes()
-        {
-            return hiddenPictureBoxes;
         }
 
         public List<Enemy> GetEnemies()

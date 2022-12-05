@@ -10,6 +10,7 @@ namespace Kunskapsspel.Scenes
 {
     class LearnComplexNumbersScene : IRoom
     {
+        private readonly ImageManager imageManager = new ImageManager();
         public List<FloorSegment> floorSegments = new List<FloorSegment>();
         public List<InteractableObject> interactableObjects = new List<InteractableObject>();
         public List<PictureBox> hiddenPictureBoxes = new List<PictureBox>();
@@ -24,14 +25,15 @@ namespace Kunskapsspel.Scenes
             CreateDoors();
             CreateInteractableObjects();
             CreateEnemies(timerClass);
+            CreateWalls();
         }
 
         public void CreateFloorSegments()
         {
-            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, Screen.PrimaryScreen.Bounds.Height / 2 - 1000 / 2), new Size(1500, 1000));
+            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, Screen.PrimaryScreen.Bounds.Height / 2 - 1000 / 2), new Size(1500, 1000), Color.FromArgb(255, 41, 117));
 
             Size size = new Size(1000, 1500);
-            FloorSegment floorSegment2 = new FloorSegment(gameForm, this, new Point(floorSegment.FloorBody.Location.X + floorSegment.Width - size.Width, floorSegment.FloorBody.Location.Y + floorSegment.Height ), size);
+            new FloorSegment(gameForm, this, new Point(floorSegment.FloorBody.Location.X + floorSegment.Width - size.Width, floorSegment.FloorBody.Location.Y + floorSegment.Height), size, Color.FromArgb(255, 41, 117));
 
         }
 
@@ -53,9 +55,13 @@ namespace Kunskapsspel.Scenes
 
         public void CreateInteractableObjects()
         {
-            InteractableObject npc = new InteractableObject(new Point(4000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
+            InteractableObject npc = new InteractableObject(new Point(4000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), imageManager.GetGeneralGoofyImage, gameForm, floorSegments);
             allPictureBoxes.Add(npc.hiddenBody);
             interactableObjects.Add(npc);
+        }
+
+        public void CreateWalls()
+        {
         }
 
         public void StartScene()
@@ -121,5 +127,7 @@ namespace Kunskapsspel.Scenes
         {
             return enemies;
         }
+
+        
     }
 }

@@ -14,6 +14,7 @@ namespace Kunskapsspel
         void CreateDoors();
         void CreateFloorSegments();
         void CreateInteractableObjects();
+        void CreateWalls();
         void UppdatePositions();
         List<FloorSegment> GetFloorSegments();
         List<PictureBox> GetAllPictureBoxes();

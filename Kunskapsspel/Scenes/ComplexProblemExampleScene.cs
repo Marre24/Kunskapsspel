@@ -104,5 +104,10 @@ namespace Kunskapsspel.Scenes
         {
             return enemies;
         }
+
+        public void CreateWalls()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

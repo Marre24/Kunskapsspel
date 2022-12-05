@@ -26,6 +26,7 @@ namespace Kunskapsspel.Scenes
             CreateInteractableObjects();
             CreateDoors();
             CreateEnemies(timerClass);
+            CreateWalls();
         }
 
         public void CreateEnemies(TimerClass timer)
@@ -44,9 +45,9 @@ namespace Kunskapsspel.Scenes
 
         public void CreateFloorSegments()
         {
-            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, 0), new Size(3000, 1000));
+            FloorSegment floorSegment = new FloorSegment(gameForm, this, new Point(0, 0), new Size(3000, 1000), Color.FromArgb(255, 41, 117));
 
-            FloorSegment floorSegment2 = new FloorSegment(gameForm, this, new Point(0, floorSegment.OrginalLocation.Y + floorSegment.Height), new Size(1000, 1000));
+            new FloorSegment(gameForm, this, new Point(0, floorSegment.OrginalLocation.Y + floorSegment.Height), new Size(1000, 1000), Color.FromArgb(255, 41, 117));
 
         }
 
@@ -55,6 +56,10 @@ namespace Kunskapsspel.Scenes
             InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
             allPictureBoxes.Add(interactableObject.hiddenBody);
             interactableObjects.Add(interactableObject);
+        }
+
+        public void CreateWalls()
+        {
         }
 
         public void StartScene()
@@ -124,5 +129,6 @@ namespace Kunskapsspel.Scenes
         {
             return enemies;
         }
+
     }
 }

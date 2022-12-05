@@ -19,11 +19,11 @@ namespace Kunskapsspel
 
         public int Width { get => floorBody.Width;}
 
-        private PictureBox floorBody;
+        private readonly PictureBox floorBody;
 
         private Size size;
 
-        public FloorSegment(GameForm gameForm, IRoom room, Point location, Size size)
+        public FloorSegment(GameForm gameForm, IRoom room, Point location, Size size, Color color)
         {
             this.location = location;
             this.size = size;
@@ -32,7 +32,7 @@ namespace Kunskapsspel
             {
                 Size = size,
                 Location = location,
-                Image = Image.FromFile(@"./Resources/Capybara.jpg"),
+                BackColor = color,
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Visible = false,
             };

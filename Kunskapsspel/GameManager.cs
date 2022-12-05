@@ -27,7 +27,7 @@ namespace Kunskapsspel
         private void StartGame()
         {
             interactClass = new InteractClass();
-            player = new Player(gameForm, Image.FromFile(@"./Resources/Karaktär.png"));
+            player = new Player(gameForm, new ImageManager().GetPlayerFrontImage);
             movementClass = new MovementClass();
             timerClass = new TimerClass(this, movementClass);
             sceneManager = new SceneManager(gameForm, timerClass);

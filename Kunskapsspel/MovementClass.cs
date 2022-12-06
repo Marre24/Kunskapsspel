@@ -29,12 +29,6 @@ namespace Kunskapsspel
                 foreach (PictureBox pb in room.GetAllPictureBoxes())
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
 
-            //foreach (PictureBox pictureBox in room.GetAllPictureBoxes())
-            //{
-            //    Debug.WriteIf(pictureBox.Name == "Body", pictureBox.Location);
-            //    Debug.WriteIf(pictureBox.Name == "hiddenBody", pictureBox.Location);
-            //}
-
             if (canMoveY)
                 foreach (PictureBox pb in room.GetAllPictureBoxes())
                 {
@@ -74,9 +68,24 @@ namespace Kunskapsspel
         {
             foreach (Door door in doors)
             {
-                if (AreInsideOfPictureBox(door.doorBody, player) && door.opened)
+                if (IsTouching(player, door.doorBody) && door.opened)
                     sceneManager.ChangeSceneTo(door.target);
             }
+        }
+
+        public bool IsTouching(Player player, PictureBox pictureBox)
+        {
+            return (IsBetweenX(player.LeftLocation, pictureBox) || IsBetweenX(player.RightLocation, pictureBox)) && (IsBetweenY(player.TopLocation, pictureBox) || IsBetweenY(player.BottomLocation, pictureBox));
+        }
+
+        private bool IsBetweenX(int xCord, PictureBox pictureBox)
+        {
+            return pictureBox.Location.X <= xCord && pictureBox.Location.X + pictureBox.Width >= xCord;
+        }
+
+        private bool IsBetweenY(int yCord, PictureBox pictureBox)
+        {
+            return pictureBox.Location.Y <= yCord && pictureBox.Location.Y + pictureBox.Height >= yCord;
         }
 
         private Tuple<bool, bool> CanMoveTo(List<FloorSegment> floors, int x, int y, Player player)

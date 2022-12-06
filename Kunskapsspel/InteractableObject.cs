@@ -45,7 +45,6 @@ namespace Kunskapsspel
         {
             itemBody = new PictureBox()
             {
-                Name = "Body",
                 Location = ItemPoint,
                 Size = ItemSize,
                 Image = image,
@@ -59,15 +58,13 @@ namespace Kunskapsspel
         {
             hiddenBody = new PictureBox()
             {
-                Name = "hiddenBody",
                 Location = ItemPoint,
                 Size = ItemSize,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Visible = true,
+                Visible = false,
             };
             form.Controls.Add(hiddenBody);
-            hiddenBody.BringToFront();
         }
 
         public bool CanBeInteractedWith(Player player)

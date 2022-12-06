@@ -31,12 +31,12 @@ namespace Kunskapsspel.Scenes
 
         public void CreateFloorSegments()
         {
-            new FloorSegment(gameForm, this, new Point(0, 0), new Size(6000, 2000), Color.FromArgb(140, 30, 255));
+            new FloorSegment(gameForm, this, new Point(0, 0), new Size(5000, 1000), Color.FromArgb(140, 30, 255));
         }
 
         public void CreateDoors()
         {
-            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3900, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(100, 500), gameForm, true);
+            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(4900, 500), new Size(100, 500), gameForm, true, Color.FromArgb(44,123,55));
             doors.Add(exit);
             allPictureBoxes.Add(exit.doorBody);
         }
@@ -49,7 +49,7 @@ namespace Kunskapsspel.Scenes
         public void CreateInteractableObjects()
         {
 
-            InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
+            InteractableObject interactableObject = new InteractableObject(new Point(1500, 90), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
             allPictureBoxes.Add(interactableObject.hiddenBody);
             interactableObjects.Add(interactableObject);
 

@@ -15,22 +15,24 @@ namespace Kunskapsspel
         public Point originalLocation;
         public bool opened;
 
-        public Door(Rooms leedsTo, Point location, Size size, GameForm gameForm, bool open)
+        public Door(Rooms leedsTo, Point location, Size size, GameForm gameForm, bool isOpen, Color color)
         {
             originalLocation = location;
             target = leedsTo;
-            CreateBody(gameForm, location, size);
-            this.opened = open;
+            CreateBody(gameForm, location, size, color);
+            this.opened = isOpen;
         }
-        private void CreateBody(GameForm gameForm, Point location, Size size)
+        private void CreateBody(GameForm gameForm, Point location, Size size, Color color)
         {
             doorBody = new PictureBox()
             {
                 Location = location,
                 Size = size,
                 Visible = false,
+                BackColor = color,
             };
             gameForm.Controls.Add(doorBody);
+            doorBody.BringToFront();
         }
 
         public void Open()
@@ -42,6 +44,5 @@ namespace Kunskapsspel
         { 
             opened = false; 
         }
-
     }
 }

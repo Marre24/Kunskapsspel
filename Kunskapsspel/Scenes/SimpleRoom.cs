@@ -38,7 +38,7 @@ namespace Kunskapsspel.Scenes
 
         public void CreateDoors()
         {
-            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3000 - 500, 0), new Size(500, 1000), gameForm, false);
+            Door exit = new Door(Rooms.LearnComplexNumbersScene, new Point(3000 - 500, 0), new Size(500, 1000), gameForm, false, Color.FromArgb(44, 123, 55));
             doors.Add(exit);
             allPictureBoxes.Add(exit.doorBody);
         }

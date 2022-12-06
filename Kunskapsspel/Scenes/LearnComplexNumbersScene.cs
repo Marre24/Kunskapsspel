@@ -43,7 +43,7 @@ namespace Kunskapsspel.Scenes
             //doors.Add(exit);
             //allPictureBoxes.Add(exit.doorBody);
 
-            Door entry = new Door(Rooms.LearnControlsScene, new Point(3950, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(50, 500), gameForm, true);
+            Door entry = new Door(Rooms.LearnControlsScene, new Point(3950, Screen.PrimaryScreen.Bounds.Height / 2 - 500 / 2), new Size(50, 500), gameForm, true, Color.FromArgb(44, 123, 55));
             doors.Add(entry);
             allPictureBoxes.Add(entry.doorBody);
         }

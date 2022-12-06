@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace Kunskapsspel.Scenes
 
         public void CreateFloorSegments()
         {
-            new FloorSegment(gameForm, this, new Point(0, Screen.PrimaryScreen.Bounds.Height/2 - 2000/2), new Size(6000, 2000), Color.FromArgb(140, 30, 255));
+            new FloorSegment(gameForm, this, new Point(0, 0), new Size(6000, 2000), Color.FromArgb(140, 30, 255));
         }
 
         public void CreateDoors()
@@ -48,17 +49,20 @@ namespace Kunskapsspel.Scenes
         public void CreateInteractableObjects()
         {
 
-            InteractableObject sign = new InteractableObject(new Point(2000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
-            allPictureBoxes.Add(sign.hiddenBody);
-            interactableObjects.Add(sign);
+            InteractableObject interactableObject = new InteractableObject(new Point(1500, 500), new Size(300, 300), Image.FromFile(@"./Resources/Capybara.jpg"), gameForm, floorSegments);
+            allPictureBoxes.Add(interactableObject.hiddenBody);
+            interactableObjects.Add(interactableObject);
 
-            InteractableObject npc = new InteractableObject(new Point(4000, doors[0].doorBody.Location.Y - 200), new Size(300, 300), imageManager.GetGeneralGoofyImage, gameForm, floorSegments);
+            Debug.WriteLine(interactableObject.itemBody.Location.Y);
+            Debug.WriteLine(interactableObject.hiddenBody.Location.Y);
+
+
+            InteractableObject npc = new InteractableObject(new Point(4000, 90), new Size(300, 300), imageManager.GetGeneralGoofyImage, gameForm, floorSegments);
             allPictureBoxes.Add(npc.hiddenBody);
             interactableObjects.Add(npc);
         }
         public void CreateWalls()
         {
-
 
         }
 

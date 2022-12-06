@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -31,17 +32,20 @@ namespace Kunskapsspel
 
             CreateBody(ItemPoint, ItemSize, image);
             foreach (FloorSegment floorSegment in floorSegments)
-            {
                 if (AreInsideOfPictureBox(floorSegment.FloorBody, itemBody))
+                {
                     itemBody.Parent = floorSegment.FloorBody;
-            }
-            CreateHiddenBody(ItemPoint, ItemSize, image);
+                    //itemBody.Location = new Point(itemBody.Location.X, itemBody.Location.Y + 90);
+                }
+
+            CreateHiddenBody(itemBody.Location, ItemSize, image);
         }
 
         public void CreateBody(Point ItemPoint, Size ItemSize, Image image)
         {
             itemBody = new PictureBox()
             {
+                Name = "Body",
                 Location = ItemPoint,
                 Size = ItemSize,
                 Image = image,
@@ -55,13 +59,15 @@ namespace Kunskapsspel
         {
             hiddenBody = new PictureBox()
             {
+                Name = "hiddenBody",
                 Location = ItemPoint,
                 Size = ItemSize,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
-                Visible = false,
+                Visible = true,
             };
             form.Controls.Add(hiddenBody);
+            hiddenBody.BringToFront();
         }
 
         public bool CanBeInteractedWith(Player player)

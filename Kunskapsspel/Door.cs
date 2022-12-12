@@ -34,7 +34,6 @@ namespace Kunskapsspel
             gameForm.Controls.Add(doorBody);
             doorBody.BringToFront();
         }
-
         public void Open()
         {
             opened = true;

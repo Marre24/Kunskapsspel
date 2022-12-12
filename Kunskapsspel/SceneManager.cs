@@ -22,12 +22,12 @@ namespace Kunskapsspel
         public IRoom CurrentRoom { get => currentRoom; set { } }
 
         public Dictionary<Rooms, IRoom> rooms = new Dictionary<Rooms, IRoom>();
-        public SceneManager(GameForm gameForm, TimerClass timer)
+        public SceneManager(GameForm gameForm, TimerClass timer, Player player)
         {
-            rooms.Add(Rooms.LearnControlsScene, new LearnControlsScene(gameForm, timer));
-            rooms.Add(Rooms.LearnComplexNumbersScene, new LearnComplexNumbersScene(gameForm, timer));
+            rooms.Add(Rooms.LearnControlsScene, new LearnControlsScene(gameForm, timer, player));
+            rooms.Add(Rooms.LearnComplexNumbersScene, new LearnComplexNumbersScene(gameForm, timer, player));
 
-            rooms.Add(Rooms.SimpleRoom, new SimpleRoom(gameForm, timer));
+            rooms.Add(Rooms.SimpleRoom, new SimpleRoom(gameForm, timer, player));
 
             currentRoom = rooms[Rooms.LearnControlsScene];
 

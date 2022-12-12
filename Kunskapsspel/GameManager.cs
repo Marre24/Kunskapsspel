@@ -30,7 +30,7 @@ namespace Kunskapsspel
             player = new Player(gameForm, new ImageManager().GetPlayerFrontImage);
             movementClass = new MovementClass();
             timerClass = new TimerClass(this, movementClass);
-            sceneManager = new SceneManager(gameForm, timerClass);
+            sceneManager = new SceneManager(gameForm, timerClass, player);
 
             timerClass.Start();
         }

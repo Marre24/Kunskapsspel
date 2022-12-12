@@ -13,6 +13,7 @@ namespace Kunskapsspel
     {
         public PictureBox body;
         Size bodySize = new Size(200,200);
+        public Point originalLocation = new Point(Screen.PrimaryScreen.Bounds.Width / 2 - 200 / 2, Screen.PrimaryScreen.Bounds.Height / 2 - 200/ 2); // 200 = width and height
 
         public int LeftLocation { get => body.Location.X; set { } }
         public int RightLocation{ get => body.Location.X + body.Width; set { } }
@@ -29,7 +30,7 @@ namespace Kunskapsspel
             body = new PictureBox()
             {
                 Size = bodySize,
-                Location = new Point(Screen.PrimaryScreen.Bounds.Width / 2 - bodySize.Width/2, Screen.PrimaryScreen.Bounds.Height / 2 - bodySize.Height / 2),
+                Location = originalLocation,
                 Image = image,
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.Transparent,

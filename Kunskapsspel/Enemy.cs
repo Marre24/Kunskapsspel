@@ -49,6 +49,7 @@ namespace Kunskapsspel
                 Location= location,
                 Size = size,
                 Visible = false,
+                SizeMode = PictureBoxSizeMode.StretchImage,
             };
             gameForm.Controls.Add(body);
             body.BringToFront();

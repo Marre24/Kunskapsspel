@@ -16,8 +16,10 @@ namespace Kunskapsspel.Scenes
         private readonly List<Door> doors = new List<Door>();
         private readonly List<Enemy> enemies = new List<Enemy>();
         public GameForm gameForm;
-        public ComplexProblemExampleScene(GameForm gameForm, TimerClass timerClass)
+        private readonly Player player;
+        public ComplexProblemExampleScene(GameForm gameForm, TimerClass timerClass, Player player)
         {
+            this.player = player;
             this.gameForm = gameForm;
             CreateFloorSegments();
             CreateInteractableObjects();
@@ -57,6 +59,8 @@ namespace Kunskapsspel.Scenes
 
         public void UppdatePositions()
         {
+            player.body.Location = player.originalLocation;
+
             foreach (Door door in doors)
                 door.doorBody.Location = door.originalLocation;
 

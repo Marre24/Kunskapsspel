@@ -17,34 +17,58 @@ namespace Kunskapsspel
     public class MovementClass
     {
         private const int movementSpeed = 35;
+        private bool movePlayerX = false;
 
         public MovementClass() { }
-        public void Move(Player player, IRoom room, SceneManager sceneManager)
+        public void Move(Player player, IRoom room)
         {
             (int x, int y) = GetOffset();
 
-            (bool canMoveX, bool canMoveY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
+            (bool willMoveCameraX, bool willMoveCameraY) = CanMoveTo(room.GetFloorSegments(), x, y, player);
 
-            if (canMoveX)
+            //movePlayerX = false;
+            //foreach (FloorSegment floorSegment in room.GetFloorSegments())
+            //    if (IsTouching(player, floorSegment.FloorBody))
+            //        if ((IsAtEdge(x, floorSegment.FloorBody) && willMoveCameraX) || (player.body.Location != player.originalLocation))
+            //        {
+            //            willMoveCameraX = false;
+            //            movePlayerX = true;
+            //        }
+
+            //if (movePlayerX && (player.body.Location.X - x > 0)) // && player.body.Location.X - x < player.originalLocation.X + x
+              //  player.body.Location = new Point(player.body.Location.X - x, player.body.Location.Y);
+
+            //if (movePlayerX && (player.body.Location.X + player.body.Width - x < Screen.PrimaryScreen.Bounds.Width))//&& player.body.Location.X - x > player.originalLocation.X
+            //    player.body.Location = new Point(player.body.Location.X - x, player.body.Location.Y);
+
+
+
+            if (willMoveCameraX)
                 foreach (PictureBox pb in room.GetAllPictureBoxes())
                     pb.Location = new Point(pb.Location.X + x, pb.Location.Y);
 
-            if (canMoveY)
+            if (willMoveCameraY)
                 foreach (PictureBox pb in room.GetAllPictureBoxes())
-                {
                     pb.Location = new Point(pb.Location.X, pb.Location.Y + y);
-                    
-                }
-
-            CheckForEnemies(player, room.GetEnemies());
-            CheckForDoors(player, room.GetDoors(), sceneManager);
         }
 
-        private void CheckForEnemies(Player player, List<Enemy> enemies)
+        private bool IsAtEdge(int xOffset, PictureBox pictureBox)
         {
-            foreach (Enemy enemy in enemies)
-                if (AreInsideOfPictureBox(enemy.hiddenBody, player) && !enemy.defeated)
-                    enemy.StartInteraction();
+            return (0 < pictureBox.Location.X + xOffset) || (Screen.PrimaryScreen.Bounds.Width > pictureBox.Location.X + xOffset + pictureBox.Width);
+        }
+
+        public bool IsTouching(Player player, PictureBox pictureBox)
+        {
+            return (IsBetweenX(player.LeftLocation, pictureBox) || IsBetweenX(player.RightLocation, pictureBox)) && (IsBetweenY(player.TopLocation, pictureBox) || IsBetweenY(player.BottomLocation, pictureBox));
+        }
+        private bool IsBetweenX(int xCord, PictureBox pictureBox)
+        {
+            return pictureBox.Location.X <= xCord && pictureBox.Location.X + pictureBox.Width >= xCord;
+        }
+
+        private bool IsBetweenY(int yCord, PictureBox pictureBox)
+        {
+            return pictureBox.Location.Y <= yCord && pictureBox.Location.Y + pictureBox.Height >= yCord;
         }
 
         private Tuple<int, int> GetOffset()
@@ -62,30 +86,6 @@ namespace Kunskapsspel
                 x -= movementSpeed;
 
             return Tuple.Create(x, y);
-        }
-
-        private void CheckForDoors(Player player, List<Door> doors, SceneManager sceneManager)
-        {
-            foreach (Door door in doors)
-            {
-                if (IsTouching(player, door.doorBody) && door.opened)
-                    sceneManager.ChangeSceneTo(door.target);
-            }
-        }
-
-        public bool IsTouching(Player player, PictureBox pictureBox)
-        {
-            return (IsBetweenX(player.LeftLocation, pictureBox) || IsBetweenX(player.RightLocation, pictureBox)) && (IsBetweenY(player.TopLocation, pictureBox) || IsBetweenY(player.BottomLocation, pictureBox));
-        }
-
-        private bool IsBetweenX(int xCord, PictureBox pictureBox)
-        {
-            return pictureBox.Location.X <= xCord && pictureBox.Location.X + pictureBox.Width >= xCord;
-        }
-
-        private bool IsBetweenY(int yCord, PictureBox pictureBox)
-        {
-            return pictureBox.Location.Y <= yCord && pictureBox.Location.Y + pictureBox.Height >= yCord;
         }
 
         private Tuple<bool, bool> CanMoveTo(List<FloorSegment> floors, int x, int y, Player player)
